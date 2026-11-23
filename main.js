@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {buildAthens} from './athens.js?v=3.3';
-const V='3';
+import {buildAthens} from './athens.js?v=3.4';
+const V='3.4';const PAGEV='3';// V=資源快取版本；PAGEV=對外網址版本
 const $=s=>document.querySelector(s);
 const isPhone=()=>innerWidth<=760;
 const [GEO,DATA]=await Promise.all([fetch('data/geo.json?v='+V).then(r=>r.json()),fetch('data/stations.json?v='+V).then(r=>r.json())]);
@@ -254,7 +254,7 @@ function render(){const s=cur;if(!s)return showHome();phead.innerHTML=stationHea
   body.innerHTML=h;body.scrollTop=0;bindLink(s);
   body.querySelectorAll('figure').forEach(f=>f.onclick=()=>openLB(f.dataset.k,+f.dataset.i));
   const g=body.querySelector('[data-go=street]');if(g)g.onclick=()=>enterStreet(s);const m=body.querySelector('[data-go=map]');if(m)m.onclick=()=>exitStreet(s);}
-function stationURL(s){return location.origin+location.pathname+'?v='+V+'&s='+s.n;}
+function stationURL(s){return location.origin+location.pathname+'?v='+PAGEV+'&s='+s.n;}
 function linkCard(s){const u=stationURL(s);return `<section class="slink" id="slink"><div class="sl-h">🔗 本站專屬連結</div>
   <div class="sl-t"><b style="background:${CCs[s.iso]}">${pad(s.n)}</b>${esc(s.zh)}</div><div class="sl-d">參訪日期 ${s.date}・照片 ${s.photos.length} 張</div>
   <input class="sl-u" readonly value="${esc(u)}" aria-label="本站網址">
