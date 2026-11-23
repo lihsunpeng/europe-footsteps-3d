@@ -3,7 +3,7 @@
 // 配色沿用 v44（#F894BB #ED6578 #EA3C3C #F6925A）。地標（郵輪、塞爾蘇斯圖書館、蛇柱、梅特蘭圓亭…）依實景參考照片簡化建模。
 import * as THREE from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {ionic,corinthian,doric,bake,paving,M,marble,pPink,pCoral,pRed,pOrange,pGold} from './athens.js?v=3.7';
+import {ionic,corinthian,doric,bake,paving,M,marble,pPink,pCoral,pRed,pOrange,pGold} from './athens.js?v=3.7.1';
 const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
 const inPoly=(x,z,P)=>{let c=false;for(let i=0,j=P.length-1;i<P.length;j=i++){const [xi,zi]=P[i],[xj,zj]=P[j];if(((zi>z)!==(zj>z))&&(x<(xj-xi)*(z-zi)/(zj-zi)+xi))c=!c;}return c;};
 const shp=pts=>{const s=new THREE.Shape();pts.forEach(([x,z],i)=>i?s.lineTo(x,-z):s.moveTo(x,-z));return s;};
@@ -127,9 +127,9 @@ export function buildScene(ctx){const {D,R,off,path,PL,grp,canvasTex,rr,FONT,arc
       const q=P[(bi+1)%P.length];const ax=[(q[0]-P[bi][0])/bl,(q[1]-P[bi][1])/bl],pr=[-ax[1],ax[0]];let u0=1e9,u1=-1e9,v0=1e9,v1=-1e9;
       for(const [x,z] of P){const u=x*ax[0]+z*ax[1],w=x*pr[0]+z*pr[1];u0=Math.min(u0,u);u1=Math.max(u1,u);v0=Math.min(v0,w);v1=Math.max(v1,w);}
       const J=0.035;let u=u0,row=0;
-      while(u<u1&&cnt<26000){const L=rnd(0.55,0.85);let w=v0-(row%2?rnd(0.1,0.35):0);
+      while(u<u1&&cnt<14000){const L=rnd(0.55,0.85);let w=v0-(row%2?rnd(0.1,0.35):0);
         while(w<v1){const Wd=rnd(0.55,0.85);const cu=u+L/2,cv=w+Wd/2;const cx=ax[0]*cu+pr[0]*cv,cz=ax[1]*cu+pr[1]*cv;
-          if(inPoly(cx,cz,P)&&nearR(cx,cz,22)){cnt++;const y=0.03+rnd(0.03,0.05);const j=()=>rnd(0,0.025);
+          if(inPoly(cx,cz,P)&&nearR(cx,cz,15)){cnt++;const y=0.03+rnd(0.03,0.05);const j=()=>rnd(0,0.025);
             const Q=[[u+J+j(),w+J+j()],[u+L-J-j(),w+J+j()],[u+L-J-j(),w+Wd-J-j()],[u+J+j(),w+Wd-J-j()]].map(([a,b])=>[ax[0]*a+pr[0]*b,ax[1]*a+pr[1]*b]);
             const t=Q.map(([x,z])=>V3(x,y,z)),bt=Q.map(([x,z])=>V3(x,0.015,z));const tri=(A,B,C)=>pos.push(A.x,A.y,A.z,B.x,B.y,B.z,C.x,C.y,C.z);
             tri(t[0],t[2],t[1]);tri(t[0],t[3],t[2]);tri(t[0],t[1],t[2]);tri(t[0],t[2],t[3]);for(let k=0;k<4;k++){const n=(k+1)%4;tri(bt[k],t[n],t[k]);tri(bt[k],bt[n],t[n]);}

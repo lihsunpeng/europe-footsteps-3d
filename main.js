@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {buildAthens} from './athens.js?v=3.7';
-import {buildSyntagma,synRoute} from './syntagma.js?v=3.7';
-import {buildScene} from './scene.js?v=3.7';
-const V='3.7';const PAGEV='3';// V=資源快取版本；PAGEV=對外網址版本
+import {buildAthens} from './athens.js?v=3.7.1';
+import {buildSyntagma,synRoute} from './syntagma.js?v=3.7.1';
+import {buildScene} from './scene.js?v=3.7.1';
+const V='3.7.1';const PAGEV='3';// V=資源快取版本；PAGEV=對外網址版本
 const $=s=>document.querySelector(s);
 const isPhone=()=>innerWidth<=760;
 const [GEO,DATA,SYND,RTS]=await Promise.all([fetch('data/geo.json?v='+V).then(r=>r.json()),fetch('data/stations.json?v='+V).then(r=>r.json()),fetch('data/syntagma.json?v='+V).then(r=>r.json()).catch(()=>null),fetch('data/routes.json?v='+V).then(r=>r.json()).catch(()=>({}))]);
@@ -224,7 +224,7 @@ if(ST[0].v3&&!SYN)buildAthens({path,PL,uGate:ST[0].su,uEnd:uAt(1)-3/PL,grp:ST[0]
 function ensureScene(j){const s=ST[j];if(!s||!s.scn||s.scn.built)return;s.scn.built=true;
   fetch('data/scenes/'+pad(s.n)+'.json?v='+V).then(r=>r.json()).then(D=>{try{buildScene({D,R:s.scn.R,off:s.scn.off,path,PL,grp:s.sg,canvasTex,rr,FONT,arc:[s.scn.u0*PL,s.scn.u1*PL]});}catch(e){console.error('scene',s.n,e);}}).catch(e=>console.error('scene load',s.n,e));}
 function ensureTextures(i){for(let j=Math.max(0,i-1);j<=Math.min(NS-1,i+1);j++){ensureScene(j);for(const f of ST[j].frames){if(f.loaded)continue;f.loaded=true;loadTex(f.ph.t+'?v='+V).then(t=>{if(t){f.pic.material.map=t;f.pic.material.color.set(0xffffff);f.pic.material.needsUpdate=true;}});}}
-  ST.forEach((s,j)=>s.sg.visible=Math.abs(j-i)<=2);}
+  ST.forEach((s,j)=>s.sg.visible=Math.abs(j-i)<=(s.scn?1:2));}
 
 // ================= camera flights =================
 let mode='map';// 'map' | 'street'
