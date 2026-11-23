@@ -3,7 +3,7 @@
 // 配色沿用 v44（#F894BB #ED6578 #EA3C3C #F6925A）。地標（郵輪、塞爾蘇斯圖書館、蛇柱、梅特蘭圓亭…）依實景參考照片簡化建模。
 import * as THREE from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {ionic,corinthian,doric,bake,paving,M,marble,pPink,pCoral,pRed,pOrange,pGold} from './athens.js?v=3.10';
+import {ionic,corinthian,doric,bake,paving,M,marble,pPink,pCoral,pRed,pOrange,pGold} from './athens.js?v=3.10.1';
 const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
 const inPoly=(x,z,P)=>{let c=false;for(let i=0,j=P.length-1;i<P.length;j=i++){const [xi,zi]=P[i],[xj,zj]=P[j];if(((zi>z)!==(zj>z))&&(x<(xj-xi)*(z-zi)/(zj-zi)+xi))c=!c;}return c;};
 const shp=pts=>{const s=new THREE.Shape();pts.forEach(([x,z],i)=>i?s.lineTo(x,-z):s.moveTo(x,-z));return s;};
