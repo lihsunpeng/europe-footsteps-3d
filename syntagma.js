@@ -3,7 +3,7 @@
 // 參考照片來源與規則見 NOTES（efp/NOTES.md）。配色沿用 v44（粉／珊瑚／紅／橘）。
 import * as THREE from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {doric,ionic,corinthian,bake,paving,M,marble,pPink,pCoral,pRed,pOrange} from './athens.js?v=3.8';
+import {doric,ionic,corinthian,bake,paving,M,marble,pPink,pCoral,pRed,pOrange} from './athens.js?v=3.9';
 const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
 export function synElev(D,z){const E=(D.TZ-z)/D.S;return E>=54?0.7:E<=40?0:0.7*(E-40)/14;}
 export function synRoute(D){return D.route.map(([x,y,z])=>V3(x,y,z));}

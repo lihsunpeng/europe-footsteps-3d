@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {buildAthens} from './athens.js?v=3.8';
-import {buildSyntagma,synRoute} from './syntagma.js?v=3.8';
-import {buildScene} from './scene.js?v=3.8';
-const V='3.8';const PAGEV='3';// V=資源快取版本；PAGEV=對外網址版本
+import {buildAthens} from './athens.js?v=3.9';
+import {buildSyntagma,synRoute} from './syntagma.js?v=3.9';
+import {buildScene} from './scene.js?v=3.9';
+const V='3.9';const PAGEV='3';// V=資源快取版本；PAGEV=對外網址版本
 const $=s=>document.querySelector(s);
 const isPhone=()=>innerWidth<=760;
 const [GEO,DATA,SYND,RTS]=await Promise.all([fetch('data/geo.json?v='+V).then(r=>r.json()),fetch('data/stations.json?v='+V).then(r=>r.json()),fetch('data/syntagma.json?v='+V).then(r=>r.json()).catch(()=>null),fetch('data/routes.json?v='+V).then(r=>r.json()).catch(()=>({}))]);
@@ -355,6 +355,13 @@ renderer.domElement.addEventListener('pointerup',e=>{if(!down||Math.hypot(e.clie
 const labWrap=$('#labels');
 for(const s of ST){const d=document.createElement('div');d.className='lab';d.style.borderColor=CCs[s.iso];
   d.innerHTML=`<b style="color:${CCs[s.iso]}">${pad(s.n)}</b> <span class="nm">${s.short} <i class="e">${s.shortEn}</i></span><span class="d">${s.date}</span>`;d.onclick=()=>select(s);labWrap.appendChild(d);s.lab=d;}
+// 一站多點（例：17 站 華沙＋格但斯克）：副地圖點與標籤，點了都進同一站
+const SUBP=[];for(const s of ST)for(const q of (s.pins||[])){const dir=dirPlanar(...planar(q.lon,q.lat));const g=new THREE.Group();
+  const sk=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.02,0.7,8),stickM);sk.position.y=0.35;g.add(sk);const hd=new THREE.Mesh(new THREE.SphereGeometry(0.17,18,12),new THREE.MeshStandardMaterial({color:CC[s.iso],roughness:.35}));hd.position.y=0.86;g.add(hd);
+  const bs=new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.18,0.05,16),whiteM);bs.position.y=0.025;g.add(bs);
+  g.traverse(o=>{if(o.isMesh){o.castShadow=true;o.userData.st=s;pickables.push(o);}});g.position.copy(surf(dir,HGT+0.06));g.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir);scene.add(g);
+  const d=document.createElement('div');d.className='lab sub';d.style.borderColor=CCs[s.iso];d.innerHTML=`<b style="color:${CCs[s.iso]}">${pad(s.n)}${q.tag||''}</b> <span class="nm">${q.zh} <i class="e">${q.en}</i></span>`;d.onclick=()=>select(s);labWrap.appendChild(d);
+  SUBP.push({s,g,dir,lab:d,top:()=>g.localToWorld(new THREE.Vector3(0,1.15,0))});}
 for(const cl of clusters){if(cl.m.length<2)continue;const d=document.createElement('div');d.className='lab cl';
   d.innerHTML=`<b>${cl.name}</b> ${cl.nameEn} · ${cl.m.length} 站 stops<span class="d">${cl.m.map(s=>pad(s.n)).join('・')}</span>`;d.onclick=()=>{stopTour();flyTo(viewAt(cl.dir,isPhone()?9:7,0.78),1300);};labWrap.appendChild(d);cl.lab=d;}
 const twLab=document.createElement('div');twLab.className='lab tw';twLab.innerHTML='<b>台灣</b> 出發 ✈<span class="d">Departing from Taiwan</span>';labWrap.appendChild(twLab);
@@ -376,6 +383,7 @@ function placeLabels(){if(mode!=='map')return;const placed=[];const alt=camera.p
   for(const s of order){const el=s.lab;el.classList.toggle('sel',s===cur);el.classList.toggle('compact',isPhone()&&s.cl.m.length>1&&s!==cur);
     if(far||!s.obj.visible||!facing(s.dir)||(s.cl.m.length>1&&!s.cl.near&&s!==cur)){el.classList.add('hide');continue;}
     place(el,proj(s.top()),placed,s===cur);}
+  for(const p of SUBP){p.g.visible=p.s.obj.visible;p.lab.classList.toggle('sel',p.s===cur);if(far||!p.g.visible||!facing(p.dir)||camera.position.distanceTo(surf(p.dir))>14){p.lab.classList.add('hide');continue;}place(p.lab,proj(p.top()),placed,p.s===cur);}
   for(const cl of clusters){if(!cl.lab)continue;if(far||cl.near||!facing(cl.dir)){cl.lab.classList.add('hide');continue;}place(cl.lab,proj(surf(cl.dir,1.5)),placed,false);}}
 
 // ================= loop =================
@@ -388,6 +396,7 @@ function loop(){const t=clock.getElapsedTime();
     flight.visible=twPin.visible=plane.visible=alt>95;
     for(const s of ST){const sel=s===cur;const dc=camera.position.distanceTo(s.obj.position);const sc=THREE.MathUtils.clamp(dc/(isPhone()?22:18),0.16,1.15)*(sel?1.3:1);s.obj.scale.setScalar(sc);
       s.obj.userData.head.position.y=1.18+(sel?0.15*Math.abs(Math.sin(t*4)):0.03*Math.sin(t*2+s.n));}
+    for(const p of SUBP)p.g.scale.setScalar(THREE.MathUtils.clamp(camera.position.distanceTo(p.g.position)/(isPhone()?22:18),0.16,1.15)*(p.s===cur?1.3:1));
     for(const st of stars){st.m.scale.setScalar(THREE.MathUtils.clamp(camera.position.distanceTo(st.m.position)/16,0.2,1));const u=(t*0.12/Math.max(0.6,st.r.len/6)+st.o)%1;st.r.cu.getPointAt(u,st.m.position);st.m.rotation.y=t*2;}
     flightCurve.getPointAt((t*0.08)%1,plane.position);plane.rotation.y=t;
     renderer.render(scene,camera);placeLabels();}

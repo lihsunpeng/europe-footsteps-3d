@@ -3,7 +3,7 @@
 // 配色沿用 v44（#F894BB #ED6578 #EA3C3C #F6925A）。地標（郵輪、塞爾蘇斯圖書館、蛇柱、梅特蘭圓亭…）依實景參考照片簡化建模。
 import * as THREE from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {ionic,corinthian,doric,bake,paving,M,marble,pPink,pCoral,pRed,pOrange,pGold} from './athens.js?v=3.8';
+import {ionic,corinthian,doric,bake,paving,M,marble,pPink,pCoral,pRed,pOrange,pGold} from './athens.js?v=3.9';
 const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
 const inPoly=(x,z,P)=>{let c=false;for(let i=0,j=P.length-1;i<P.length;j=i++){const [xi,zi]=P[i],[xj,zj]=P[j];if(((zi>z)!==(zj>z))&&(x<(xj-xi)*(z-zi)/(zj-zi)+xi))c=!c;}return c;};
 const shp=pts=>{const s=new THREE.Shape();pts.forEach(([x,z],i)=>i?s.lineTo(x,-z):s.moveTo(x,-z));return s;};
@@ -140,7 +140,7 @@ function landmark(L,ctx){const {canvasTex,rr,FONT}=ctx;const g=new THREE.Group()
   if(L.zh){const s=sprite(canvasTex,rr,FONT,L.zh,L.en,true);s.position.set(0,h+1.4,0);g.add(s);}
   return g;}
 // ---------- 主程式 ----------
-const PALS={def:[0xfbe9e4,0xf9dcd2,0xf6e6d4,0xf3d6dc,0xfff3ea,0xf2e2d9],corfu:[0xf3d9a8,0xefc89a,0xf6e2b8,0xe9b69a,0xf4d2c0,0xf7e7c9],trulli:[0xfbf8f3,0xf6f1ea,0xfffcf7],ist:[0xf2e4d6,0xe9d6c6,0xf5ebe0,0xdcc4b6,0xf3dcd4],mete:[0xe9dcc6,0xdccbb0,0xf0e4d0,0xd8c4a8],waw:[0xf3d9a4,0xeeb48e,0xd9e3b8,0xf5c2b8,0xf8ecd0,0xc9dbe6,0xf7cfa6,0xe8a598]};
+const PALS={def:[0xfbe9e4,0xf9dcd2,0xf6e6d4,0xf3d6dc,0xfff3ea,0xf2e2d9],corfu:[0xf3d9a8,0xefc89a,0xf6e2b8,0xe9b69a,0xf4d2c0,0xf7e7c9],trulli:[0xfbf8f3,0xf6f1ea,0xfffcf7],ist:[0xf2e4d6,0xe9d6c6,0xf5ebe0,0xdcc4b6,0xf3dcd4],mete:[0xe9dcc6,0xdccbb0,0xf0e4d0,0xd8c4a8],tor:[0xd98b6e,0xcf7d63,0xe5a084,0xc8735d,0xe9b29a],waw:[0xf3d9a4,0xeeb48e,0xd9e3b8,0xf5c2b8,0xf8ecd0,0xc9dbe6,0xf7cfa6,0xe8a598]};
 export function buildScene(ctx){const {D,R,off,path,PL,grp,canvasTex,rr,FONT,arc}=ctx;const g=new THREE.Group();g.position.set(off[0],0,off[1]);grp.add(g);
   const S=D.S,tile=[3.6/S,3.4/S],pal=PALS[D.palette]||PALS.def,v=D.view;
   // 地面
@@ -187,7 +187,7 @@ export function buildScene(ctx){const {D,R,off,path,PL,grp,canvasTex,rr,FONT,arc
     const top=Math.max(b.h,b.mh+0.2);let wtop=Math.max(b.mh,top-(b.rh?rh:0));if(!b.rh&&rs&&rs!=='flat')wtop=top;
     const thin=(top-b.mh)>4*r;const kind=b.trullo?'trullo':b.arc?'arc':(b.w||thin||D.style==='ruins'||rs==='dome')?'stone':'win';if(b.trullo)c=new THREE.Color(pal[0]);
     if(wtop-b.mh>0.05){if(b.arc){const a1=Math.min(wtop,b.mh+1.35);G.arc.push(walls(P,b.mh,a1-b.mh,[1.2,1.35],c));if(wtop>a1)G.win.push(walls(P,a1,wtop-a1,tile,c));}else G[kind].push(walls(P,b.mh,wtop-b.mh,tile,c));}
-    const rc=rs==='dome'||rs==='onion'?lead:b.trullo?trulloR:(D.palette==='corfu'||D.palette==='ist'||D.palette==='mete'||D.palette==='waw')?terr:c.clone().multiplyScalar(0.93);
+    const rc=rs==='dome'||rs==='onion'?lead:b.trullo?trulloR:(D.palette==='corfu'||D.palette==='ist'||D.palette==='mete'||D.palette==='waw'||D.palette==='tor')?terr:c.clone().multiplyScalar(0.93);
     if(rs==='dome'||rs==='onion'){const dg=new THREE.SphereGeometry(r,20,10,0,Math.PI*2,0,Math.PI/2);dg.scale(1,rh/r,1);dg.translate(cx,wtop,cz);G.roof.push(colorize(dg,rc));if(rs==='onion'){const sp=new THREE.ConeGeometry(r*0.15,rh*0.6,8);sp.translate(cx,wtop+rh+rh*0.3,cz);G.roof.push(colorize(sp,pGold.color));}}
     else if(rs==='cone'||rs==='pyramidal'||rs==='gabled'||rs==='hipped'){const n=(rs==='cone'||thin)?20:4;const cg=new THREE.ConeGeometry(n===20?r:r*1.3,rh,n);if(n===4)cg.rotateY(Math.PI/4);cg.translate(cx,wtop+rh/2,cz);G.roof.push(colorize(cg,rc));
       if(b.trullo){const pn=new THREE.SphereGeometry(Math.max(0.08,r*0.12),8,6);pn.translate(cx,wtop+rh+0.05,cz);G.roof.push(colorize(pn,new THREE.Color(0xffffff)));}}
@@ -204,6 +204,14 @@ export function buildScene(ctx){const {D,R,off,path,PL,grp,canvasTex,rr,FONT,arc
     if(p.k==='fountain'){const r=Math.min(p.r||0.9,3);const w=new THREE.Mesh(new THREE.CylinderGeometry(r,r+0.05,0.4,32,1,true),marble);w.position.y=0.2;q.add(w);const wt=new THREE.Mesh(new THREE.CircleGeometry(r-0.03,32),M(0xb9e3ef,{roughness:.15}));wt.rotation.x=-Math.PI/2;wt.position.y=0.3;q.add(wt);q.add(box(0.25,0.9,0.25,marble,0,0.45,0));}
     else if(p.k==='obelisk'){const h=p.h,b=Math.max(0.3,(p.r||h*0.06)*0.9);q.add(box(b*2.6,h*0.12,b*2.6,M(0xd8c6b8),0,h*0.06,0));const sh=new THREE.CylinderGeometry(b*0.55,b,h*0.8,4,1);sh.rotateY(Math.PI/4);const m=new THREE.Mesh(sh,M(0xd9a9a0,{roughness:.6}));m.position.y=h*0.12+h*0.4;m.castShadow=true;q.add(m);const tp=new THREE.Mesh(new THREE.ConeGeometry(b*0.55*1.41*0.72,h*0.08,4),pGold);tp.rotation.y=Math.PI/4;tp.position.y=h*0.92+h*0.04;q.add(tp);}
     else if(p.k==='column'){q.add(box(1,0.6,1,marble,0,0.3,0));const c=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.34,p.h,16),marble);c.position.y=0.6+p.h/2;q.add(c);if(p.st){q.add(box(0.8,0.25,0.8,marble,0,0.6+p.h+0.12,0));const st=new THREE.Mesh(new THREE.CapsuleGeometry(0.22,0.9,4,8),p.h>6?bronze:marble);st.position.y=0.6+p.h+0.25+0.67;q.add(st);}}
+    else if(p.k==='well'){const wd=M(0x9a6b4f,{roughness:.9}),sh=M(0x7d5a48,{roughness:.9});q.add(new THREE.Mesh(new THREE.CylinderGeometry(0.9,0.95,0.7,8),wd));q.children.at(-1).position.y=0.35;
+      for(let i=0;i<8;i++){const a=i/8*Math.PI*2;q.add(box(0.14,2.2,0.14,wd,Math.cos(a)*1.05,1.1,Math.sin(a)*1.05));}
+      const rf=new THREE.Mesh(new THREE.ConeGeometry(1.6,1.6,8),sh);rf.position.y=2.2+0.8;rf.castShadow=true;q.add(rf);const lt=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.3,0.5,8),wd);lt.position.y=3.9;q.add(lt);const tp=new THREE.Mesh(new THREE.ConeGeometry(0.4,0.7,8),sh);tp.position.y=4.5;q.add(tp);}
+    else if(p.k==='crosses'){const st=M(0xb9bcc4,{metalness:.5,roughness:.4}),dk=M(0x3b3b44,{metalness:.4,roughness:.5}),h=p.h||14;
+      [-1.6,0,1.6].forEach((dx,i)=>{const c=box(0.45,h,0.45,st,dx,h/2,0);c.castShadow=true;q.add(c);q.add(box(2.2,0.4,0.4,st,dx,h*0.78,0));const an=new THREE.Mesh(new THREE.TorusGeometry(0.55,0.12,8,16,Math.PI),dk);an.rotation.z=Math.PI;an.position.set(dx,h+0.2,0);q.add(an);q.add(box(0.12,1.0,0.12,dk,dx,h+0.4,0));});
+      q.add(box(5.6,0.5,2.2,M(0x8d8f96),0,0.25,0));}
+    else if(p.k==='neptune'){const r=p.r||1.6;const w=new THREE.Mesh(new THREE.CylinderGeometry(r,r+0.1,0.6,24),marble);w.position.y=0.3;q.add(w);const wt=new THREE.Mesh(new THREE.CircleGeometry(r-0.08,24),M(0xb9e3ef,{roughness:.15}));wt.rotation.x=-Math.PI/2;wt.position.y=0.61;q.add(wt);
+      q.add(box(0.7,1.6,0.7,marble,0,1.4,0));const st=new THREE.Mesh(new THREE.CapsuleGeometry(0.26,1.0,4,8),bronze);st.position.y=2.2+0.75;q.add(st);q.add(box(0.06,1.8,0.06,pGold,0.35,3.1,0));q.add(box(0.36,0.06,0.06,pGold,0.35,4.0,0));}
     else if(p.k==='statue'){q.add(box(0.8,1.0,0.8,marble,0,0.5,0));const st=new THREE.Mesh(new THREE.CapsuleGeometry(0.2,0.8,4,8),bronze);st.position.y=1.6;q.add(st);}}
   // 地標
   for(const L of D.lms)g.add(landmark(L,ctx));
