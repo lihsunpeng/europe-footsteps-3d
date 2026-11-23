@@ -90,7 +90,7 @@ const clusters=[];
 for(const s of ST){let cl=clusters.find(c=>Math.hypot(c.x-s.base[0],c.y-s.base[1])<0.45);if(!cl){cl={x:s.base[0],y:s.base[1],m:[]};clusters.push(cl);}cl.m.push(s);s.cl=cl;}
 const CLNAME={athens:'雅典',istanbul:'伊斯坦堡',warsaw:'華沙',gdansk:'格但斯克灣',krakow:'克拉科夫'};
 for(const cl of clusters){cl.name=CLNAME[cl.m[0].loc]||cl.m[0].short;const k=cl.m.length;
-  cl.m.forEach((s,i)=>{let p=[...s.base];if(k>1){const a=i/k*Math.PI*2+Math.PI/2;const r=k>=4?0.55:0.32;p=[cl.x+Math.cos(a)*r,cl.y+Math.sin(a)*r];}s.dir=dirPlanar(...p);});
+  cl.m.forEach((s,i)=>{let p=[...s.base];if(k>1){const a=i/k*Math.PI*2+Math.PI/2;const r=k>=4?0.85:0.4;p=[cl.x+Math.cos(a)*r,cl.y+Math.sin(a)*r];}s.dir=dirPlanar(...p);});
   cl.dir=dirPlanar(cl.x,cl.y);const ds=cl.m.map(s=>s.date);cl.range=cl.m.length>1?`${cl.m[0].date.slice(0,10)} 起 ${k} 站`:'';}
 const pickables=[];const whiteM=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.45});
 const stickM=new THREE.MeshStandardMaterial({color:0x8a4a5a});const eM=new THREE.MeshBasicMaterial({color:0x3a1a24});const bM=new THREE.MeshBasicMaterial({color:0xffb3c8});
@@ -298,7 +298,7 @@ renderer.domElement.addEventListener('pointerup',e=>{if(!down||Math.hypot(e.clie
 // ================= labels =================
 const labWrap=$('#labels');
 for(const s of ST){const d=document.createElement('div');d.className='lab';d.style.borderColor=CCs[s.iso];
-  d.innerHTML=`<b style="color:${CCs[s.iso]}">${pad(s.n)}</b> ${s.short}<span class="d">${s.date}</span>`;d.onclick=()=>select(s);labWrap.appendChild(d);s.lab=d;}
+  d.innerHTML=`<b style="color:${CCs[s.iso]}">${pad(s.n)}</b> <span class="nm">${s.short}</span><span class="d">${s.date}</span>`;d.onclick=()=>select(s);labWrap.appendChild(d);s.lab=d;}
 for(const cl of clusters){if(cl.m.length<2)continue;const d=document.createElement('div');d.className='lab cl';
   d.innerHTML=`<b>${cl.name}</b> ${cl.m.length} 站<span class="d">${cl.m.map(s=>pad(s.n)).join('・')}</span>`;d.onclick=()=>{stopTour();flyTo(viewAt(cl.dir,isPhone()?9:7,0.78),1300);};labWrap.appendChild(d);cl.lab=d;}
 const twLab=document.createElement('div');twLab.className='lab tw';twLab.innerHTML='<b>台灣</b> 出發 ✈';labWrap.appendChild(twLab);
@@ -306,14 +306,18 @@ const euLab=document.createElement('div');euLab.className='lab cl big';euLab.inn
 const tmp=new THREE.Vector3(),camDir=new THREE.Vector3();
 function proj(v){tmp.copy(v).project(camera);if(tmp.z>1||Math.abs(tmp.x)>1.1||Math.abs(tmp.y)>1.1)return null;return [(tmp.x+1)/2*innerWidth,(1-tmp.y)/2*innerHeight];}
 function facing(dir){camDir.copy(camera.position).sub(C).normalize();return dir.dot(camDir)>0.25;}
-function place(el,xy,placed,force){if(!xy){el.classList.add('hide');return;}const w=el.offsetWidth,h=el.offsetHeight;const rx=xy[0]-w/2,ry=xy[1]-h-2;const b=[rx,ry,rx+w,ry+h];
-  if(!force&&placed.some(q=>!(b[2]<q[0]||b[0]>q[2]||b[3]<q[1]||b[1]>q[3]))){el.classList.add('hide');return;}placed.push(b);el.classList.remove('hide');el.style.transform=`translate(${rx|0}px,${ry|0}px)`;}
+function place(el,xy,placed,force){if(!xy){el.classList.add('hide');return;}const w=el.offsetWidth,h=el.offsetHeight;
+  const cands=[[xy[0]-w/2,xy[1]-h-2],[xy[0]+6,xy[1]-h/2],[xy[0]-w-6,xy[1]-h/2],[xy[0]-w/2,xy[1]+14],[xy[0]+6,xy[1]+8],[xy[0]-w-6,xy[1]+8],[xy[0]-w/2,xy[1]-2*h-6],[xy[0]+6,xy[1]-h-10],[xy[0]-w-6,xy[1]-h-10]];
+  for(let [rx,ry] of (force?cands.slice(0,1):cands)){rx=Math.max(4,Math.min(innerWidth-w-4,rx));const b=[rx,ry,rx+w,ry+h];
+    if(!force&&(placed.some(q=>!(b[2]<q[0]||b[0]>q[2]||b[3]<q[1]||b[1]>q[3]))||ry<0))continue;
+    placed.push(b);el.classList.remove('hide');el.style.transform=`translate(${rx|0}px,${ry|0}px)`;return;}
+  el.classList.add('hide');}
 function placeLabels(){if(mode!=='map')return;const placed=[];const alt=camera.position.distanceTo(C)-R;const far=alt>95;
   place(twLab,far&&facing(TW)?proj(surf(TW,1.5)):null,placed,true);
   place(euLab,far&&facing(dirLL(20,48))?proj(surf(dirLL(20,48),2)):null,placed,true);
-  const order=[...ST].sort((a,b)=>(b===cur)-(a===cur)||a.n-b.n);
-  for(const cl of clusters){if(!cl.lab)continue;const d=camera.position.distanceTo(surf(cl.dir));cl.near=d<12;}
-  for(const s of order){const el=s.lab;el.classList.toggle('sel',s===cur);
+  for(const cl of clusters){const d=camera.position.distanceTo(surf(cl.dir));cl.near=d<12;}
+  const pr=x=>(x===cur?4:0)+(x.cl.m.length>1&&x.cl.near?2:0);const order=[...ST].sort((a,b)=>pr(b)-pr(a)||a.n-b.n);
+  for(const s of order){const el=s.lab;el.classList.toggle('sel',s===cur);el.classList.toggle('compact',isPhone()&&s.cl.m.length>1&&s!==cur);
     if(far||!s.obj.visible||!facing(s.dir)||(s.cl.m.length>1&&!s.cl.near&&s!==cur)){el.classList.add('hide');continue;}
     place(el,proj(s.top()),placed,s===cur);}
   for(const cl of clusters){if(!cl.lab)continue;if(far||cl.near||!facing(cl.dir)){cl.lab.classList.add('hide');continue;}place(cl.lab,proj(surf(cl.dir,1.5)),placed,false);}}
@@ -326,7 +330,7 @@ function loop(){const t=clock.getElapsedTime();
     camLight.position.copy(camera.position);camLight.target.position.copy(controls.target);camLight.target.updateMatrixWorld();
     const alt=camera.position.distanceTo(C)-R;ctrySprites.forEach(sp=>sp.visible=alt>9&&alt<95);
     flight.visible=twPin.visible=plane.visible=alt>95;
-    for(const s of ST){const sel=s===cur;const dc=camera.position.distanceTo(s.obj.position);const sc=THREE.MathUtils.clamp(dc/16,0.18,1.15)*(sel?1.3:1);s.obj.scale.setScalar(sc);
+    for(const s of ST){const sel=s===cur;const dc=camera.position.distanceTo(s.obj.position);const sc=THREE.MathUtils.clamp(dc/(isPhone()?22:18),0.16,1.15)*(sel?1.3:1);s.obj.scale.setScalar(sc);
       s.obj.userData.head.position.y=1.18+(sel?0.15*Math.abs(Math.sin(t*4)):0.03*Math.sin(t*2+s.n));}
     for(const st of stars){st.m.scale.setScalar(THREE.MathUtils.clamp(camera.position.distanceTo(st.m.position)/16,0.2,1));const u=(t*0.12/Math.max(0.6,st.r.len/6)+st.o)%1;st.r.cu.getPointAt(u,st.m.position);st.m.rotation.y=t*2;}
     flightCurve.getPointAt((t*0.08)%1,plane.position);plane.rotation.y=t;

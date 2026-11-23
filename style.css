@@ -113,3 +113,4 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 #body .cta button+button{background:linear-gradient(180deg,#ffd0a8,var(--p4));box-shadow:0 3px 0 #d9733d}
 #body figcaption small{color:#b47a8a}
 #body .small{font-size:11px;color:#b47a8a}
+.lab.compact{padding:1px 6px;font-size:11px}.lab.compact .nm{display:none}.lab.compact .d{display:inline;margin-left:3px;font-size:10.5px}
