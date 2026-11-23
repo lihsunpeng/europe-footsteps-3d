@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {buildAthens} from './athens.js?v=3.6';
-import {buildSyntagma,synRoute} from './syntagma.js?v=3.6';
-const V='3.6';const PAGEV='3';// V=資源快取版本；PAGEV=對外網址版本
+import {buildAthens} from './athens.js?v=3.7';
+import {buildSyntagma,synRoute} from './syntagma.js?v=3.7';
+import {buildScene} from './scene.js?v=3.7';
+const V='3.7';const PAGEV='3';// V=資源快取版本；PAGEV=對外網址版本
 const $=s=>document.querySelector(s);
 const isPhone=()=>innerWidth<=760;
-const [GEO,DATA,SYND]=await Promise.all([fetch('data/geo.json?v='+V).then(r=>r.json()),fetch('data/stations.json?v='+V).then(r=>r.json()),fetch('data/syntagma.json?v='+V).then(r=>r.json()).catch(()=>null)]);
+const [GEO,DATA,SYND,RTS]=await Promise.all([fetch('data/geo.json?v='+V).then(r=>r.json()),fetch('data/stations.json?v='+V).then(r=>r.json()),fetch('data/syntagma.json?v='+V).then(r=>r.json()).catch(()=>null),fetch('data/routes.json?v='+V).then(r=>r.json()).catch(()=>({}))]);
 const ST=DATA.stations;
 const CC={GR:0xF894BB,TR:0xF6925A,IT:0xEA3C3C,PL:0xED6578};
 const CCs={GR:'#F894BB',TR:'#F6925A',IT:'#EA3C3C',PL:'#ED6578'};
@@ -90,8 +91,8 @@ ST.forEach(s=>{s.trip=s.n<=11?'t1':'t2';s.base=planar(s.lon,s.lat);});
 // clusters (same city): spread on a ring at city level
 const clusters=[];
 for(const s of ST){let cl=clusters.find(c=>Math.hypot(c.x-s.base[0],c.y-s.base[1])<0.45);if(!cl){cl={x:s.base[0],y:s.base[1],m:[]};clusters.push(cl);}cl.m.push(s);s.cl=cl;}
-const CLNAME={athens:'雅典',istanbul:'伊斯坦堡',warsaw:'華沙',gdansk:'格但斯克灣',krakow:'克拉科夫'};
-for(const cl of clusters){cl.name=CLNAME[cl.m[0].loc]||cl.m[0].short;const k=cl.m.length;
+const CLNAME={athens:'雅典',istanbul:'伊斯坦堡',warsaw:'華沙',gdansk:'格但斯克灣',krakow:'克拉科夫'},CLEN={athens:'Athens',istanbul:'Istanbul',warsaw:'Warsaw',gdansk:'Gdańsk Bay',krakow:'Kraków'};
+for(const cl of clusters){cl.name=CLNAME[cl.m[0].loc]||cl.m[0].short;cl.nameEn=CLEN[cl.m[0].loc]||cl.m[0].shortEn;const k=cl.m.length;
   cl.m.forEach((s,i)=>{let p=[...s.base];if(k>1){const a=i/k*Math.PI*2+Math.PI/2;const r=k>=4?0.85:0.4;p=[cl.x+Math.cos(a)*r,cl.y+Math.sin(a)*r];}s.dir=dirPlanar(...p);});
   cl.dir=dirPlanar(cl.x,cl.y);const ds=cl.m.map(s=>s.date);cl.range=cl.m.length>1?`${cl.m[0].date.slice(0,10)} 起 ${k} 站`:'';}
 const pickables=[];const whiteM=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.45});
@@ -127,7 +128,7 @@ const stars=routes.map((r,i)=>{const m=new THREE.Mesh(starG,starM);scene.add(m);
 const plane=new THREE.Mesh(starG,starM);plane.scale.setScalar(6);scene.add(plane);
 
 // ================= STREET (B: cobblestone walk) =================
-const street=new THREE.Scene();street.background=bgTex('#ffd6e4','#fff0f4','#ffe8d6');street.fog=new THREE.Fog(0xfff0f4,18,70);
+const street=new THREE.Scene();street.background=bgTex('#ffd6e4','#fff0f4','#ffe8d6');street.fog=new THREE.Fog(0xfff0f4,22,110);
 street.add(new THREE.HemisphereLight(0xfff6f8,0xf3c3cf,1.3));
 const ssun=new THREE.DirectionalLight(0xfff1e0,1.6);ssun.position.set(10,20,8);ssun.castShadow=true;ssun.shadow.mapSize.set(1024,1024);
 Object.assign(ssun.shadow.camera,{left:-20,right:20,top:20,bottom:-20,near:1,far:60});street.add(ssun);street.add(ssun.target);
@@ -138,13 +139,24 @@ const zAt=[];{let z=0;for(let i=-1;i<=NS+1;i++){zAt.push(z);z+=segL(i);}}
 // v3：第一站若是「憲法廣場」場景，前段路線改用 OSM 真實動線（Ermou → 廣場 → 無名戰士紀念碑 → Vas. Sofias）
 const SYN=ST[0].scene==='syntagma'&&SYND?SYND:null;
 const pathPts=[],gatePts=[];
-if(SYN){const R=synRoute(SYN);pathPts.push(...R);gatePts.push(new THREE.Vector3(SYN.gate[0],0,SYN.gate[1]));const zEnd=R[R.length-1].z,base=-zEnd+GAP*0.9-zAt[2];
-  for(let i=1;i<=NS+1;i++){const p=new THREE.Vector3(Math.sin(i*0.9)*5,0,-(zAt[i+1]+base));pathPts.push(p);if(i<NS)gatePts.push(p);}}
-else{for(let i=-1;i<=NS+1;i++){const p=new THREE.Vector3(Math.sin(i*0.9)*5,0,-zAt[i+1]);pathPts.push(p);if(i>=0&&i<NS)gatePts.push(p);}}
+// v3.7：第 2～N 站若有真實廣場場景（data/routes.json），沿 OSM 真實動線接上；其餘站維持原本的石板路段
+const SC={};// i → {off:[x,z], R, i0, i1}（pathPts 索引範圍）
+{let zc;if(SYN){const R=synRoute(SYN);pathPts.push(...R);gatePts.push(new THREE.Vector3(SYN.gate[0],0,SYN.gate[1]));zc=R[R.length-1].z-GAP*0.9;}
+ else{pathPts.push(new THREE.Vector3(Math.sin(-0.9)*5,0,0));zc=-segL(-1);gatePts.push(new THREE.Vector3(0,0,zc));pathPts.push(gatePts[0].clone());zc-=segL(0);}
+ for(let i=1;i<=NS+1;i++){const R=i<NS?RTS[String(ST[i].n)]:null;
+  if(R){const oz=zc-Math.max(4,R.ext[0]-6),ox=0;SC[i]={off:[ox,oz],R,i0:pathPts.length};for(const [x,z] of R.route)pathPts.push(new THREE.Vector3(x+ox,0,z+oz));
+    gatePts.push(new THREE.Vector3(R.gate[0]+ox,0,R.gate[1]+oz));const e=R.route[R.route.length-1];pathPts.push(new THREE.Vector3(e[0]+ox,0,e[1]+oz-4));SC[i].i1=pathPts.length;zc=Math.min(e[1]+oz-10,R.ext[1]+oz+4);}
+  else{const p=new THREE.Vector3(Math.sin(i*0.9)*5,0,zc);pathPts.push(p);if(i<NS)gatePts.push(p);zc-=segL(i);}}}
 const path=new THREE.CatmullRomCurve3(pathPts);
 const PL=path.getLength();
 const ZT=-pathPts[pathPts.length-1].z;
 const uAt=(()=>{const N=8000,pts=[];for(let k=0;k<=N;k++)pts.push(path.getPointAt(k/N));return i=>{const q=gatePts[Math.min(i,gatePts.length-1)];if(i>=gatePts.length)return 1;let b=0,bd=1e9;for(let k=0;k<=N;k++){const d=(pts[k].x-q.x)**2+(pts[k].z-q.z)**2;if(d<bd){bd=d;b=k;}}return b/N;};})();
+const SCU=[];{const N=24000,Ls=path.getLengths(N),pts=[];for(let k=0;k<=N;k++)pts.push(path.getPoint(k/N));const nP=pathPts.length-1;
+  for(const i in SC){const c=SC[i],k0=Math.floor(c.i0/nP*N),k1=Math.min(N,Math.ceil((c.i1-1)/nP*N));
+    c.near=q=>{let b=k0,bd=1e9;for(let k=k0;k<=k1;k++){const d=(pts[k].x-q.x)**2+(pts[k].z-q.z)**2;if(d<bd){bd=d;b=k;}}return Ls[b]/Ls[N];};
+    c.u0=Ls[k0]/Ls[N]-2/PL;c.u1=Ls[k1]/Ls[N];SCU.push([c.u0,c.u1]);}}
+const inSC=u=>SCU.some(([a,b])=>u>=a&&u<=b);
+const SCZ=Object.values(SC).map(c=>[c.off[1]+c.R.ext[1],c.off[1]+c.R.ext[0]]);const inSCZ=z=>SCZ.some(([a,b])=>z>=a&&z<=b);
 // ground
 {const g=new THREE.PlaneGeometry(140,ZT+4*GAP);g.rotateX(-Math.PI/2);const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:0xfbe3d9,roughness:1}));m.position.set(0,-0.02,-ZT/2);m.receiveShadow=true;street.add(m);}
 // cobblestones (instanced)
@@ -152,7 +164,7 @@ const uAt=(()=>{const N=8000,pts=[];for(let k=0;k<=N;k++)pts.push(path.getPointA
  const im=new THREE.InstancedMesh(geo,new THREE.MeshStandardMaterial({roughness:.85}),n*per);const m4=new THREE.Matrix4(),q=new THREE.Quaternion(),col=new THREE.Color();let k=0;
  const pal=[0xe9d6d0,0xf1dcd6,0xdcc6c2,0xf4c9cf,0xeedfcf,0xd9c3bd];
  const uSkip=ST[0].v3?uAt(1)-3/PL:0;
- for(let i=0;i<n;i++){const u=i/n;if(u<uSkip)continue;const p=path.getPointAt(u);const tg=path.getTangentAt(u);const side=new THREE.Vector3(-tg.z,0,tg.x);
+ for(let i=0;i<n;i++){const u=i/n;if(u<uSkip||inSC(u))continue;const p=path.getPointAt(u);if(inSCZ(p.z))continue;const tg=path.getTangentAt(u);const side=new THREE.Vector3(-tg.z,0,tg.x);
   for(let j=0;j<per;j++){const off=(j-(per-1)/2)*step+((i%2)?step/2:0)*0.5;const pos=p.clone().addScaledVector(side,off);pos.y=0.04;
    q.setFromAxisAngle(new THREE.Vector3(0,1,0),Math.random()*3);const sc=0.85+Math.random()*0.3;m4.compose(pos,q,new THREE.Vector3(sc,1,sc));im.setMatrixAt(k,m4);im.setColorAt(k,col.setHex(pal[(Math.random()*pal.length)|0]));k++;}}
  im.count=k;im.receiveShadow=true;street.add(im);}
@@ -160,9 +172,9 @@ const uAt=(()=>{const N=8000,pts=[];for(let k=0;k<=N;k++)pts.push(path.getPointA
 {const tN=Math.round(260*ZT/((NS+2)*GAP));const trunk=new THREE.InstancedMesh(new THREE.CylinderGeometry(0.12,0.16,1.2,6),new THREE.MeshStandardMaterial({color:0xc58b7a}),tN);
  const crown=new THREE.InstancedMesh(new THREE.SphereGeometry(0.9,12,9),new THREE.MeshStandardMaterial({roughness:.7}),tN);const m4=new THREE.Matrix4(),col=new THREE.Color();
  const pal=[0xffb7cf,0xffcfa8,0xbfe5b0,0xa8dcb5,0xffd6e4];
- const uT0=SYN?uAt(1)-3/PL:0;for(let i=0;i<tN;i++){const u=uT0+Math.random()*(1-uT0);const p=path.getPointAt(u);const tg=path.getTangentAt(u);const side=new THREE.Vector3(-tg.z,0,tg.x);const off=(Math.random()<.5?-1:1)*(7+Math.random()*16);
-  const pos=p.clone().addScaledVector(side,off);const sc=0.8+Math.random()*0.8;m4.makeScale(sc,sc,sc).setPosition(pos.x,0.6*sc,pos.z);trunk.setMatrixAt(i,m4);
-  m4.makeScale(sc,sc*0.95,sc).setPosition(pos.x,1.7*sc,pos.z);crown.setMatrixAt(i,m4);crown.setColorAt(i,col.setHex(pal[i%pal.length]));}
+ const uT0=SYN?uAt(1)-3/PL:0;for(let i=0;i<tN;i++){let u=uT0+Math.random()*(1-uT0);let hide=inSC(u);const p=path.getPointAt(u);const tg=path.getTangentAt(u);const side=new THREE.Vector3(-tg.z,0,tg.x);const off=(Math.random()<.5?-1:1)*(7+Math.random()*16);
+  const pos=p.clone().addScaledVector(side,off);const sc=0.8+Math.random()*0.8;if(inSCZ(pos.z)||inSCZ(p.z))hide=true;m4.makeScale(sc,sc,sc).setPosition(pos.x,0.6*sc,pos.z);trunk.setMatrixAt(i,m4);
+  m4.makeScale(sc,sc*0.95,sc).setPosition(pos.x,1.7*sc,pos.z);crown.setMatrixAt(i,m4);crown.setColorAt(i,col.setHex(pal[i%pal.length]));if(hide){m4.makeScale(0,0,0);trunk.setMatrixAt(i,m4);crown.setMatrixAt(i,m4);}}
  trunk.castShadow=crown.castShadow=true;street.add(trunk,crown);}
 // station gates + photo boards
 function canvasTex(w,h,draw){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;return t;}
@@ -177,24 +189,26 @@ ST.forEach((s,i)=>{const grp=new THREE.Group();street.add(grp);s.sg=grp;s.su=uAt
     const ball=new THREE.Mesh(new THREE.SphereGeometry(0.34,16,12),whiteM);ball.position.set(sx*2.3,3.55,0);gate.add(ball);}
   const tex=canvasTex(1024,360,(g,w,h)=>{rr(g,8,8,w-16,h-16,60);g.fillStyle='#fff';g.fill();g.lineWidth=14;g.strokeStyle=CCs[s.iso];g.stroke();
     g.fillStyle=CCs[s.iso];rr(g,40,42,150,110,40);g.fill();g.fillStyle='#fff';g.font=`900 78px ${FONT}`;g.textAlign='center';g.fillText(pad(s.n),115,124);
-    g.textAlign='left';g.fillStyle='#6b2a3a';g.font=`900 84px ${FONT}`;let t=s.short;g.fillText(t,215,128,w-250);
-    g.font=`800 56px ${FONT}`;g.fillStyle='#c2456e';g.fillText('參訪 '+s.date,48,232);g.font=`700 44px ${FONT}`;g.fillStyle='#a0586c';g.fillText(`${s.country} ${s.countryEn}`,48,306);});
+    g.textAlign='left';g.fillStyle='#6b2a3a';g.font=`900 80px ${FONT}`;let t=s.short;g.fillText(t,215,112,w-250);g.font=`800 40px ${FONT}`;g.fillStyle='#c2456e';g.fillText(s.shortEn,217,160,w-250);
+    g.font=`800 50px ${FONT}`;g.fillStyle='#c2456e';g.fillText('參訪 Visited '+s.date,48,240,w-96);g.font=`700 42px ${FONT}`;g.fillStyle='#a0586c';g.fillText(`${s.country} ${s.countryEn}`,48,308);});
   const board=new THREE.Mesh(new THREE.PlaneGeometry(4.6,1.62),new THREE.MeshBasicMaterial({map:tex,transparent:true}));board.position.set(0,3.05,0.02);gate.add(board);
   const back=board.clone();back.rotation.y=Math.PI;back.position.z=-0.02;gate.add(back);
   board.userData.st=s;streetPick.push(board);
   if(s.v3){// 石板路下層：本站專屬連結地牌（可點）
     const lt=canvasTex(1024,420,(g,w,h)=>{rr(g,10,10,w-20,h-20,70);g.fillStyle='#fff';g.fill();g.lineWidth=16;g.strokeStyle=CCs[s.iso];g.stroke();
-      g.fillStyle=CCs[s.iso];rr(g,48,40,330,72,36);g.fill();g.fillStyle='#fff';g.font=`900 44px ${FONT}`;g.textAlign='center';g.fillText('本站專屬連結',213,92);
-      g.textAlign='left';g.fillStyle='#6b2a3a';g.font=`900 70px ${FONT}`;g.fillText(`${pad(s.n)} ${s.zh}`,48,190,w-96);
-      g.font=`800 50px ${FONT}`;g.fillStyle='#c2456e';g.fillText('參訪日期 '+s.date,48,262);
+      g.fillStyle=CCs[s.iso];rr(g,48,34,560,72,36);g.fill();g.fillStyle='#fff';g.font=`900 40px ${FONT}`;g.textAlign='center';g.fillText('本站專屬連結 Stop link',328,84);
+      g.textAlign='left';g.fillStyle='#6b2a3a';g.font=`900 62px ${FONT}`;g.fillText(`${pad(s.n)} ${s.zh}`,48,172,w-96);g.font=`800 38px ${FONT}`;g.fillStyle='#a0586c';g.fillText(s.en,48,218,w-96);
+      g.font=`800 44px ${FONT}`;g.fillStyle='#c2456e';g.fillText('參訪日期 Visited '+s.date,48,272,w-96);
       g.font=`700 36px ${FONT}`;g.fillStyle='#a0586c';g.fillText(stationURL(s).replace(/^https?:\/\//,''),48,322,w-96);
-      g.font=`800 34px ${FONT}`;g.fillStyle='#ED6578';g.fillText('點一下：開啟・複製・分享',48,376);});
+      g.font=`800 34px ${FONT}`;g.fillStyle='#ED6578';g.fillText('點一下：開啟・複製・分享 Tap: open · copy · share',48,376,w-96);});
     const pl=new THREE.Mesh(new THREE.PlaneGeometry(3.6,1.48),new THREE.MeshBasicMaterial({map:lt,transparent:true}));
     pl.position.set(0,0.66,3.0);pl.rotation.x=-Math.PI/2+0.8;gate.add(pl);
     const base=new THREE.Mesh(new THREE.BoxGeometry(3.8,0.16,1.1),new THREE.MeshStandardMaterial({color:CC[s.iso],roughness:.5}));base.position.set(0,0.07,3.0);base.castShadow=true;gate.add(base);
     pl.userData={st:s,link:true};base.userData={st:s,link:true};streetPick.push(pl,base);}
   s.frames=[];
   if(SYN&&i===0)s.syn=buildSyntagma({D:SYN,path,PL,grp,canvasTex,rr,FONT,photos:s.photos});
+  if(SC[i]){const c=SC[i],[ox,oz]=c.off;const place=c.R.photos.map(p=>p?{a:c.near(new THREE.Vector3(p.p[0]+ox,0,p.p[1]+oz))*PL,sd:p.sd,off:p.off,sc:p.sc}:null);
+    const aMax=Math.max(...place.filter(Boolean).map(p=>p.a));s.syn={place,aEnd:aMax+2};s.scn=c;}
   s.photos.forEach((ph,k)=>{const pl=s.syn?s.syn.place[k]:null;const u=pl?pl.a/PL:s.su+(1.6+k*1.15)/PL;const pp=path.getPointAt(Math.min(.999,u)),tt=path.getTangentAt(Math.min(.999,u));const side=new THREE.Vector3(-tt.z,0,tt.x);const sd=pl?pl.sd:(k%2?1:-1);
     const fg=new THREE.Group();fg.position.copy(pp).addScaledVector(side,sd*(pl?pl.off:2.6));
     if(pl&&pl.wall){const d=tt.clone().multiplyScalar(-0.8).addScaledVector(side,-sd*0.62);fg.lookAt(fg.position.clone().add(d));}else fg.lookAt(pp.clone().addScaledVector(tt,-5).setY(pp.y));grp.add(fg);
@@ -202,12 +216,14 @@ ST.forEach((s,i)=>{const grp=new THREE.Group();street.add(grp);s.sg=grp;s.su=uAt
     const frame=new THREE.Mesh(new THREE.BoxGeometry(Wd+0.22,H+0.22,0.08),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.5}));frame.position.y=1.9;frame.castShadow=true;fg.add(frame);
     const pic=new THREE.Mesh(new THREE.PlaneGeometry(Wd,H),new THREE.MeshBasicMaterial({color:0xffe9ef}));pic.position.set(0,1.9,0.05);fg.add(pic);
     if(!(pl&&pl.wall)){const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,1.0,6),stickM);leg.position.y=0.5;fg.add(leg);}
-    const capT=canvasTex(640,150,(g,w,h)=>{rr(g,6,6,w-12,h-12,36);g.fillStyle='#fff';g.fill();g.lineWidth=8;g.strokeStyle=CCs[s.iso];g.stroke();g.fillStyle='#6b2a3a';g.font=`800 44px ${FONT}`;g.textAlign='center';g.fillText(ph.cap,w/2,70,w-40);g.font=`700 32px ${FONT}`;g.fillStyle='#a0586c';g.fillText(ph.day,w/2,118);});
-    const cap=new THREE.Mesh(new THREE.PlaneGeometry(1.9*Math.max(.8,sc),0.45*Math.max(.8,sc)),new THREE.MeshBasicMaterial({map:capT,transparent:true}));cap.position.set(0,1.9-H/2-0.42,0.06);fg.add(cap);
+    const capT=canvasTex(640,190,(g,w,h)=>{rr(g,6,6,w-12,h-12,36);g.fillStyle='#fff';g.fill();g.lineWidth=8;g.strokeStyle=CCs[s.iso];g.stroke();g.fillStyle='#6b2a3a';g.font=`800 42px ${FONT}`;g.textAlign='center';g.fillText(ph.cap,w/2,62,w-40);g.font=`700 30px ${FONT}`;g.fillStyle='#c2456e';g.fillText(ph.capEn||'',w/2,108,w-40);g.font=`700 28px ${FONT}`;g.fillStyle='#a0586c';g.fillText(ph.day,w/2,150);});
+    const cap=new THREE.Mesh(new THREE.PlaneGeometry(1.9*Math.max(.8,sc),0.564*Math.max(.8,sc)),new THREE.MeshBasicMaterial({map:capT,transparent:true}));cap.position.set(0,1.9-H/2-0.42,0.06);fg.add(cap);
     pic.userData={st:s,k};frame.userData={st:s,k};streetPick.push(pic,frame);s.frames.push({pic,ph,loaded:false});});
 });
 if(ST[0].v3&&!SYN)buildAthens({path,PL,uGate:ST[0].su,uEnd:uAt(1)-3/PL,grp:ST[0].sg,canvasTex,rr,FONT});
-function ensureTextures(i){for(let j=Math.max(0,i-1);j<=Math.min(NS-1,i+1);j++){for(const f of ST[j].frames){if(f.loaded)continue;f.loaded=true;loadTex(f.ph.t+'?v='+V).then(t=>{if(t){f.pic.material.map=t;f.pic.material.color.set(0xffffff);f.pic.material.needsUpdate=true;}});}}
+function ensureScene(j){const s=ST[j];if(!s||!s.scn||s.scn.built)return;s.scn.built=true;
+  fetch('data/scenes/'+pad(s.n)+'.json?v='+V).then(r=>r.json()).then(D=>{try{buildScene({D,R:s.scn.R,off:s.scn.off,path,PL,grp:s.sg,canvasTex,rr,FONT,arc:[s.scn.u0*PL,s.scn.u1*PL]});}catch(e){console.error('scene',s.n,e);}}).catch(e=>console.error('scene load',s.n,e));}
+function ensureTextures(i){for(let j=Math.max(0,i-1);j<=Math.min(NS-1,i+1);j++){ensureScene(j);for(const f of ST[j].frames){if(f.loaded)continue;f.loaded=true;loadTex(f.ph.t+'?v='+V).then(t=>{if(t){f.pic.material.map=t;f.pic.material.color.set(0xffffff);f.pic.material.needsUpdate=true;}});}}
   ST.forEach((s,j)=>s.sg.visible=Math.abs(j-i)<=2);}
 
 // ================= camera flights =================
@@ -238,24 +254,24 @@ controls.addEventListener('start',()=>{if(fly){fly=null;controls.enabled=true;}s
 let cur=null,filter='all',tab='intro';
 const panel=$('#panel'),phead=$('#phead'),tabs=$('#tabs'),body=$('#body');
 function stationHead(s){return `<span class="no" style="background:${CCs[s.iso]}">${pad(s.n)} / 25</span><span class="ct">${s.country} ${s.countryEn}</span>
-<h2>${esc(s.zh)}</h2><div class="en">${esc(s.en)}</div><div class="date">參訪日期 ${s.date}</div>`;}
+<h2>${esc(s.zh)}</h2><div class="en">${esc(s.en)}</div><div class="date">參訪日期 Visited ${s.date}</div>`;}
 function showHome(){cur=null;phead.innerHTML=`<span class="no">2026-10-13</span><span class="ct">雲科大演講 YunTech Lecture</span><h2>${DATA.title}</h2><div class="en">${DATA.titleEn}</div>`;tabs.innerHTML='';
-  const it=s=>`<button data-n="${s.n}"><span class="n" style="background:${CCs[s.iso]}">${pad(s.n)}</span><span class="tt">${esc(s.zh)}<small>${s.country} ${s.countryEn}</small></span><span class="dd">${s.date}</span></button>`;
-  body.innerHTML=`<p>2026 年冬天從雅典出發，搭郵輪走過土耳其與南義；夏天再到伊斯坦堡與波蘭，一共 25 站。像 Google Earth 一樣拖曳地球、點站點飛過去，再「走進石板路」一站一站看照片。</p>
-  <div class="cta"><button data-go="tour">▶ 開始導覽（飛行＋石板路）</button><button data-go="street">🚶 從第 1 站走石板路</button></div>
-  <h3>❄️ 冬・地中海 2026-01-22～02-15</h3><div class="list">${ST.filter(s=>s.trip==='t1').map(it).join('')}</div>
-  <h3>☀️ 夏・伊斯坦堡與波蘭 2026-06-11～07-09</h3><div class="list">${ST.filter(s=>s.trip==='t2').map(it).join('')}</div>
-  <p class="small">地圖資料：Natural Earth。照片：彭立勛 攝。</p>`;
+  const it=s=>`<button data-n="${s.n}"><span class="n" style="background:${CCs[s.iso]}">${pad(s.n)}</span><span class="tt">${esc(s.zh)}<small class="en">${esc(s.en)}</small><small>${s.country} ${s.countryEn}</small></span><span class="dd">${s.date}</span></button>`;
+  body.innerHTML=`<p>2026 年冬天從雅典出發，搭郵輪走過土耳其與南義；夏天再到伊斯坦堡與波蘭，一共 25 站。像 Google Earth 一樣拖曳地球、點站點飛過去，再「走進石板路」一站一站看照片。</p><p class="entext">In winter 2026 we set out from Athens and cruised through Türkiye and southern Italy; in summer we went on to Istanbul and Poland: 25 stops in all. Drag the globe like Google Earth, tap a pin to fly there, then walk the cobblestones stop by stop to see the photos.</p>
+  <div class="cta"><button data-go="tour">▶ 開始導覽（飛行＋石板路）<small>Start the tour (flight + walk)</small></button><button data-go="street">🚶 從第 1 站走石板路<small>Walk from stop 1</small></button></div>
+  <h3>❄️ 冬・地中海 Winter · Mediterranean 2026-01-22～02-15</h3><div class="list">${ST.filter(s=>s.trip==='t1').map(it).join('')}</div>
+  <h3>☀️ 夏・伊斯坦堡與波蘭 Summer · Istanbul & Poland 2026-06-11～07-09</h3><div class="list">${ST.filter(s=>s.trip==='t2').map(it).join('')}</div>
+  <p class="small">地圖資料 Map data：Natural Earth；街景格局 Street layouts：© OpenStreetMap contributors (ODbL)。照片 Photos：彭立勛 攝 by Li-Hsun Peng。</p>`;
   body.querySelectorAll('.list button').forEach(b=>b.onclick=()=>select(ST.find(s=>s.n==b.dataset.n)));
   body.querySelector('[data-go=tour]').onclick=()=>startTour();body.querySelector('[data-go=street]').onclick=()=>{cur=ST[0];enterStreet(ST[0]);render();};body.scrollTop=0;}
 function render(){const s=cur;if(!s)return showHome();phead.innerHTML=stationHead(s);
-  const TB=[['intro','介紹'],['photos',`照片 ${s.photos.length}`],['arts','講義圖'],['home','全部站']];
+  const TB=[['intro','介紹<small>Intro</small>'],['photos',`照片 ${s.photos.length}<small>Photos</small>`],['arts','講義圖<small>Slides</small>'],['home','全部站<small>All</small>']];
   tabs.innerHTML=TB.map(([k,l])=>`<button data-t="${k}" class="${k===tab?'on':''}">${l}</button>`).join('');
   tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.t==='home'){tab='intro';showHome();return;}tab=b.dataset.t;render();});
   let h='';
-  if(tab==='intro'){h=`<div class="cta">${mode==='map'?`<button data-go="street">🚶 走進石板路</button>`:`<button data-go="map">🌍 回地圖看這站</button>`}</div>
+  if(tab==='intro'){h=`<div class="cta">${mode==='map'?`<button data-go="street">🚶 走進石板路<small>Walk the cobblestones</small></button>`:`<button data-go="map">🌍 回地圖看這站<small>Back to the map</small></button>`}</div>
     <p>${esc(s.zhText)}</p><div class="grid">${s.photos.slice(0,4).map((p,i)=>fig(p,i,'photos')).join('')}</div>
-    <details><summary>English text（演講原文）</summary><p class="entext">${esc(s.enText)}</p></details>`;}
+    <h4 class="enh">English（演講原文）</h4><p class="entext">${esc(s.enText)}</p>`;}
   else if(tab==='photos')h=`<div class="grid">${s.photos.map((p,i)=>fig(p,i,'photos')).join('')}</div>`;
   else h=`<div class="grid">${s.arts.map((p,i)=>fig(p,i,'arts',true)).join('')}</div>`;
   if(s.v3&&tab!=='arts')h+=linkCard(s);
@@ -263,16 +279,16 @@ function render(){const s=cur;if(!s)return showHome();phead.innerHTML=stationHea
   body.querySelectorAll('figure').forEach(f=>f.onclick=()=>openLB(f.dataset.k,+f.dataset.i));
   const g=body.querySelector('[data-go=street]');if(g)g.onclick=()=>enterStreet(s);const m=body.querySelector('[data-go=map]');if(m)m.onclick=()=>exitStreet(s);}
 function stationURL(s){return location.origin+location.pathname+'?v='+PAGEV+'&s='+s.n;}
-function linkCard(s){const u=stationURL(s);return `<section class="slink" id="slink"><div class="sl-h">🔗 本站專屬連結</div>
-  <div class="sl-t"><b style="background:${CCs[s.iso]}">${pad(s.n)}</b>${esc(s.zh)}</div><div class="sl-d">參訪日期 ${s.date}・照片 ${s.photos.length} 張</div>
-  <input class="sl-u" readonly value="${esc(u)}" aria-label="本站網址">
-  <div class="sl-b"><a href="${esc(u)}">開啟此站</a><button data-copy>複製連結</button>${navigator.share?'<button data-share>分享</button>':''}</div><div class="sl-m" aria-live="polite"></div></section>`;}
+function linkCard(s){const u=stationURL(s);return `<section class="slink" id="slink"><div class="sl-h">🔗 本站專屬連結 Link to this stop</div>
+  <div class="sl-t"><b style="background:${CCs[s.iso]}">${pad(s.n)}</b>${esc(s.zh)}<small class="en">${esc(s.en)}</small></div><div class="sl-d">參訪日期 Visited ${s.date}・照片 ${s.photos.length} 張 photos</div>
+  <input class="sl-u" readonly value="${esc(u)}" aria-label="本站網址 Stop URL">
+  <div class="sl-b"><a href="${esc(u)}">開啟此站<small>Open</small></a><button data-copy>複製連結<small>Copy link</small></button>${navigator.share?'<button data-share>分享<small>Share</small></button>':''}</div><div class="sl-m" aria-live="polite"></div></section>`;}
 function bindLink(s){const c=body.querySelector('#slink');if(!c)return;const u=stationURL(s),msg=c.querySelector('.sl-m');
   const inp=c.querySelector('.sl-u');inp.onclick=()=>inp.select();
-  c.querySelector('[data-copy]').onclick=async()=>{let ok=false;try{await navigator.clipboard.writeText(u);ok=true;}catch(e){try{inp.select();ok=document.execCommand('copy');}catch(e2){}}msg.textContent=ok?'已複製，可以貼給朋友了':'請長按上方網址複製';};
-  const sh=c.querySelector('[data-share]');if(sh)sh.onclick=()=>navigator.share({title:`${pad(s.n)} ${s.zh}｜石板路上的足跡 3D`,text:`參訪日期 ${s.date}`,url:u}).catch(()=>{});}
+  c.querySelector('[data-copy]').onclick=async()=>{let ok=false;try{await navigator.clipboard.writeText(u);ok=true;}catch(e){try{inp.select();ok=document.execCommand('copy');}catch(e2){}}msg.textContent=ok?'已複製，可以貼給朋友了 Copied, ready to paste':'請長按上方網址複製 Long-press the URL above to copy';};
+  const sh=c.querySelector('[data-share]');if(sh)sh.onclick=()=>navigator.share({title:`${pad(s.n)} ${s.zh} ${s.en}｜石板路上的足跡 3D Footprints on Cobblestones`,text:`參訪日期 Visited ${s.date}`,url:u}).catch(()=>{});}
 function showLink(s){cur=s;tab='intro';openPanel();render();const c=body.querySelector('#slink');if(c){body.scrollTop+=c.getBoundingClientRect().top-body.getBoundingClientRect().top-8;c.classList.add('flash');setTimeout(()=>c.classList.remove('flash'),1600);}}
-const fig=(p,i,k,wide)=>`<figure class="${wide?'wide':''}" data-k="${k}" data-i="${i}"><img loading="lazy" src="${p.t}?v=${V}" alt="${esc(p.cap)}"><figcaption>${esc(p.cap)}${p.day?`<small> ・${p.day}</small>`:''}</figcaption></figure>`;
+const fig=(p,i,k,wide)=>`<figure class="${wide?'wide':''}" data-k="${k}" data-i="${i}"><img loading="lazy" src="${p.t}?v=${V}" alt="${esc(p.cap)} ${esc(p.capEn||'')}"><figcaption>${esc(p.cap)}${p.capEn?`<span class="en">${esc(p.capEn)}</span>`:''}${p.day?`<small> ・${p.day}</small>`:''}</figcaption></figure>`;
 function openPanel(){panel.classList.remove('folded');$('#fold').textContent='▾';}
 function select(s,opts={}){cur=s;tab='intro';$('#hint').style.display='none';if(!opts.keepPanel)openPanel();render();
   if(!opts.fromTour)stopTour();
@@ -280,7 +296,7 @@ function select(s,opts={}){cur=s;tab='intro';$('#hint').style.display='none';if(
 // lightbox
 let lbL=[],lbI=0;const lb=$('#lb');
 function openLB(k,i){lbL=k==='arts'?cur.arts:cur.photos;lbI=i;lb.hidden=false;showLB();stopTour();}
-function showLB(){const p=lbL[lbI];$('#lbimg').src=p.f+'?v='+V;$('#lbt').textContent=`${pad(cur.n)} ${cur.short}｜參訪日期 ${cur.date}（${lbI+1}/${lbL.length}）`;$('#lbcap').textContent=p.cap+(p.day?`　・拍攝 ${p.day}`:'');}
+function showLB(){const p=lbL[lbI];$('#lbimg').src=p.f+'?v='+V;$('#lbt').textContent=`${pad(cur.n)} ${cur.short} ${cur.shortEn}｜參訪日期 Visited ${cur.date}（${lbI+1}/${lbL.length}）`;$('#lbcap').textContent=p.cap+(p.capEn?' / '+p.capEn:'')+(p.day?`　・拍攝 Taken ${p.day}`:'');}
 $('#lbclose').onclick=()=>{lb.hidden=true;};$('#lbp').onclick=()=>{lbI=(lbI-1+lbL.length)%lbL.length;showLB();};$('#lbn').onclick=()=>{lbI=(lbI+1)%lbL.length;showLB();};
 addEventListener('keydown',e=>{if(lb.hidden)return;if(e.key==='Escape')lb.hidden=true;if(e.key==='ArrowLeft')$('#lbp').click();if(e.key==='ArrowRight')$('#lbn').click();});
 $('#fold').onclick=()=>{panel.classList.toggle('folded');$('#fold').textContent=panel.classList.contains('folded')?'▴':'▾';};
@@ -291,7 +307,7 @@ function fade(cb){fader.classList.add('on');setTimeout(()=>{cb();setTimeout(()=>
 function setNav(){document.querySelectorAll('#views [data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===(mode==='street'?'street':viewName)));}
 let viewName='europe';
 let walk=null;
-let BACK=10/PL,AHEAD=9/PL,CH=3.0,TH=1.6;function streetCfg(){if(isPhone()){BACK=11/PL;AHEAD=8/PL;CH=3.6;TH=1.4;}else{BACK=12/PL;AHEAD=9/PL;CH=3.2;TH=1.6;}}streetCfg();addEventListener('resize',streetCfg);function streetView(s){const u=s.su;return {p:path.getPointAt(Math.max(0,u-BACK)).setY(CH),t:path.getPointAt(Math.min(.999,u+AHEAD)).setY(TH)};}
+let BACK=10/PL,AHEAD=9/PL,CH=3.0,TH=1.6;function streetCfg(){if(isPhone()){BACK=11/PL;AHEAD=8/PL;CH=3.6;TH=1.4;}else{BACK=12/PL;AHEAD=9/PL;CH=3.2;TH=1.6;}}streetCfg();addEventListener('resize',streetCfg);function camBA(u){return inSC(u)?[9/PL,7/PL]:[BACK,AHEAD];}function streetView(s){const u=s.su;const [bk,ah]=camBA(u);return {p:path.getPointAt(Math.max(0,u-bk)).setY(CH),t:path.getPointAt(Math.min(.999,u+ah)).setY(TH)};}
 function enterStreet(s,done){fade(()=>{mode='street';camera.fov=isPhone()?68:50;camera.updateProjectionMatrix();viewName='street';cur=s;const v=streetView(s);camera.position.copy(v.p);controls.target.copy(v.t);
   controls.minDistance=1.5;controls.maxDistance=30;controls.maxPolarAngle=Math.PI*0.49;controls.enablePan=false;ensureTextures(ST.indexOf(s));labWrap.style.display='none';
   $('#hint').style.display='none';setNav();render();if(isPhone()){panel.classList.add('folded');$('#fold').textContent='▴';}done&&done();});}
@@ -302,7 +318,7 @@ function walkTo(s,done){const i=ST.indexOf(s);ensureTextures(i);const v=streetVi
 function closestU(){let best=0,bd=1e9;for(let i=0;i<=400;i++){const u=i/400;const d=path.getPointAt(u).distanceToSquared(controls.target);if(d<bd){bd=d;best=u;}}return Math.max(0,best-AHEAD);}
 function stepWalk(){if(!walk)return;const k=Math.min(1,(performance.now()-walk.s)/walk.dur);const e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
   const u=walk.u0+(walk.u1-walk.u0)*e;const bob=Math.sin(k*Math.PI*8)*0.05*(1-Math.abs(2*k-1));
-  const P=path.getPointAt(Math.max(0,Math.min(.999,u-BACK))).setY(CH+bob),Tt=path.getPointAt(Math.max(0,Math.min(.999,u+AHEAD))).setY(TH);
+  const [bk,ah]=camBA(u);const P=path.getPointAt(Math.max(0,Math.min(.999,u-bk))).setY(CH+bob),Tt=path.getPointAt(Math.max(0,Math.min(.999,u+ah))).setY(TH);
   const blend=Math.min(1,k*4);camera.position.lerpVectors(walk.p0,P,blend);controls.target.lerpVectors(walk.t0,Tt,blend);
   if(k>=1){const w=walk;walk=null;controls.enabled=true;w.done&&w.done();}}
 function glide(s,done){// slow look along this station's photos
@@ -336,11 +352,11 @@ renderer.domElement.addEventListener('pointerup',e=>{if(!down||Math.hypot(e.clie
 // ================= labels =================
 const labWrap=$('#labels');
 for(const s of ST){const d=document.createElement('div');d.className='lab';d.style.borderColor=CCs[s.iso];
-  d.innerHTML=`<b style="color:${CCs[s.iso]}">${pad(s.n)}</b> <span class="nm">${s.short}</span><span class="d">${s.date}</span>`;d.onclick=()=>select(s);labWrap.appendChild(d);s.lab=d;}
+  d.innerHTML=`<b style="color:${CCs[s.iso]}">${pad(s.n)}</b> <span class="nm">${s.short} <i class="e">${s.shortEn}</i></span><span class="d">${s.date}</span>`;d.onclick=()=>select(s);labWrap.appendChild(d);s.lab=d;}
 for(const cl of clusters){if(cl.m.length<2)continue;const d=document.createElement('div');d.className='lab cl';
-  d.innerHTML=`<b>${cl.name}</b> ${cl.m.length} 站<span class="d">${cl.m.map(s=>pad(s.n)).join('・')}</span>`;d.onclick=()=>{stopTour();flyTo(viewAt(cl.dir,isPhone()?9:7,0.78),1300);};labWrap.appendChild(d);cl.lab=d;}
-const twLab=document.createElement('div');twLab.className='lab tw';twLab.innerHTML='<b>台灣</b> 出發 ✈';labWrap.appendChild(twLab);
-const euLab=document.createElement('div');euLab.className='lab cl big';euLab.innerHTML='<b>歐洲足跡</b> 25 站<span class="d">點我飛過去</span>';euLab.onclick=()=>{viewName='europe';flyTo(viewEurope(),1800);setNav();};labWrap.appendChild(euLab);
+  d.innerHTML=`<b>${cl.name}</b> ${cl.nameEn} · ${cl.m.length} 站 stops<span class="d">${cl.m.map(s=>pad(s.n)).join('・')}</span>`;d.onclick=()=>{stopTour();flyTo(viewAt(cl.dir,isPhone()?9:7,0.78),1300);};labWrap.appendChild(d);cl.lab=d;}
+const twLab=document.createElement('div');twLab.className='lab tw';twLab.innerHTML='<b>台灣</b> 出發 ✈<span class="d">Departing from Taiwan</span>';labWrap.appendChild(twLab);
+const euLab=document.createElement('div');euLab.className='lab cl big';euLab.innerHTML='<b>歐洲足跡</b> Europe · 25 站 stops<span class="d">點我飛過去 Tap to fly there</span>';euLab.onclick=()=>{viewName='europe';flyTo(viewEurope(),1800);setNav();};labWrap.appendChild(euLab);
 const tmp=new THREE.Vector3(),camDir=new THREE.Vector3();
 function proj(v){tmp.copy(v).project(camera);if(tmp.z>1||Math.abs(tmp.x)>1.1||Math.abs(tmp.y)>1.1)return null;return [(tmp.x+1)/2*innerWidth,(1-tmp.y)/2*innerHeight];}
 function facing(dir){camDir.copy(camera.position).sub(C).normalize();return dir.dot(camDir)>0.25;}
@@ -380,7 +396,7 @@ camera.position.copy(C).addScaledVector(TW,R*(isPhone()?3.6:2.4));controls.targe
 setFilter('all',false);showHome();setNav();if(isPhone()){panel.classList.add('folded');$('#fold').textContent='▴';}loop();
 setTimeout(()=>$('#loading').classList.add('done'),150);
 const qs=new URLSearchParams(location.search);
-if(qs.get("debug"))window.__st={camera,controls,path,PL,ST,street,THREE};
+if(qs.get("debug"))window.__st={camera,controls,path,PL,ST,street,THREE,SC,SCU};
 window.__ready=true;
 if(qs.get('s')){const s=ST.find(x=>x.n==qs.get('s'));if(s){viewName='europe';setNav();setTimeout(()=>select(s,{done:s.v3&&qs.get('walk')!=='0'?()=>setTimeout(()=>enterStreet(s),500):null}),200);}}
 else setTimeout(()=>{if(!fly&&!cur){viewName='europe';setNav();flyTo(viewEurope(),2600);}},1300);

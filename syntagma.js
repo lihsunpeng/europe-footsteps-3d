@@ -3,7 +3,7 @@
 // 參考照片來源與規則見 NOTES（efp/NOTES.md）。配色沿用 v44（粉／珊瑚／紅／橘）。
 import * as THREE from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {doric,ionic,corinthian,bake,paving,M,marble,pPink,pCoral,pRed,pOrange} from './athens.js?v=3.6';
+import {doric,ionic,corinthian,bake,paving,M,marble,pPink,pCoral,pRed,pOrange} from './athens.js?v=3.7';
 const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
 export function synElev(D,z){const E=(D.TZ-z)/D.S;return E>=54?0.7:E<=40?0:0.7*(E-40)/14;}
 export function synRoute(D){return D.route.map(([x,y,z])=>V3(x,y,z));}
@@ -192,17 +192,17 @@ export function buildSyntagma({D,path,PL,grp,canvasTex,rr,FONT,photos}){
       g.textAlign='center';g.fillStyle='#6b2a3a';g.font=`900 ${big?70:60}px ${FONT}`;g.fillText(t,w/2,96,w-40);g.font=`800 40px ${FONT}`;g.fillStyle='#c2456e';g.fillText(e,w/2,156,w-40);});
     const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,depthTest:true}));s.scale.set(big?5.4:4.3,big?1.5:1.2,1);return s;};
   for(const l of D.labels){const s=sprite(l.t,l.e,true);s.position.set(l.p[0],l.y+1.2,l.p[1]);grp.add(s);}
-  for(const l of D.streets){const [zh,...rest]=l.t.split(' ');const s=sprite(rest.join(' '),zh,false);const y=Math.max(0,synElev(D,l.p[1]));s.position.set(l.p[0],y+4.6,l.p[1]);s.scale.multiplyScalar(0.62);grp.add(s);}
+  for(const l of D.streets){const [zh,...rest]=l.t.split(' ');const s=l.zh?sprite(l.zh,l.en,false):sprite(rest.join(' '),zh,false);const y=Math.max(0,synElev(D,l.p[1]));s.position.set(l.p[0],y+4.6,l.p[1]);s.scale.multiplyScalar(0.62);grp.add(s);}
   // ---- 指路牌（說明照片為何擺在這裡）
   const post=(a,sd,lines)=>{const {p,t}=at(a);const side=V3(-t.z,0,t.x);const q=p.clone().addScaledVector(side,sd*2.0);
-    const tex=canvasTex(900,300,(g,w,h)=>{rr(g,8,8,w-16,h-16,50);g.fillStyle='#fff';g.fill();g.lineWidth=12;g.strokeStyle='#ED6578';g.stroke();g.textAlign='left';
-      lines.forEach((s,i)=>{g.fillStyle=i?'#a0586c':'#6b2a3a';g.font=`${i?700:900} ${i?40:56}px ${FONT}`;g.fillText(s,40,86+i*72,w-80);});});
-    const pl=new THREE.Mesh(new THREE.PlaneGeometry(2.4,0.8),new THREE.MeshBasicMaterial({map:tex,transparent:true}));pl.position.copy(q).setY(q.y+1.75);pl.lookAt(q.clone().addScaledVector(t,-6).setY(q.y+1.75));grp.add(pl);
+    const H=70+lines.length*62;const tex=canvasTex(1000,H,(g,w,h)=>{rr(g,8,8,w-16,h-16,50);g.fillStyle='#fff';g.fill();g.lineWidth=12;g.strokeStyle='#ED6578';g.stroke();g.textAlign='left';
+      lines.forEach((s,i)=>{g.fillStyle=i===0?'#6b2a3a':i===1?'#c2456e':'#a0586c';g.font=`${i===0?900:i===1?800:700} ${i===0?52:i===1?40:34}px ${FONT}`;g.fillText(s,40,74+i*62,w-80);});});
+    const pl=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.6*H/1000),new THREE.MeshBasicMaterial({map:tex,transparent:true}));pl.position.copy(q).setY(q.y+1.75);pl.lookAt(q.clone().addScaledVector(t,-6).setY(q.y+1.75));grp.add(pl);
     const po=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,1.4,6),M(0x8a4a5a));po.position.copy(q).setY(q.y+0.7);grp.add(po);};
-  post(aE0-1.2,1,['Ermou 步行街（往西 → 蒙納斯提拉奇）','照片依拍攝地點由西向東排：蒙納斯提拉奇、','普西里、普拉卡 → Ermou 東段']);
-  post(aSq0-0.6,-1,['憲法廣場 Syntagma Square','比雷埃夫斯的照片：從這裡搭地鐵 M3','直達比雷埃夫斯（約 9 km）']);
-  const aT=arcOf(...D.tombStop);post(aT-3.2,-1,['無名戰士紀念碑・總統衛隊','國會（舊王宮）前，衛兵每小時交接']);
-  const aK0=arcOf(...D.zones.kol[0]),aK1=arcOf(...D.zones.kol[1]);post(aK0-1.5,1,['往東北約 1 km','柯羅納基・利卡維多斯山']);
+  post(aE0-1.2,1,['Ermou 步行街（往西 → 蒙納斯提拉奇）','Ermou pedestrian street (west → Monastiraki)','照片依拍攝地點由西向東排：蒙納斯提拉奇、普西里、普拉卡 → Ermou 東段','Photos run west → east by place: Monastiraki, Psyrri, Plaka → east Ermou']);
+  post(aSq0-0.6,-1,['憲法廣場','Syntagma Square','比雷埃夫斯的照片：從這裡搭地鐵 M3 直達比雷埃夫斯（約 9 km）','Piraeus photos: metro line M3 runs from here to Piraeus (~9 km)']);
+  const aT=arcOf(...D.tombStop);post(aT-3.2,-1,['無名戰士紀念碑・總統衛隊','Tomb of the Unknown Soldier · Presidential Guard','國會（舊王宮）前，衛兵每小時交接','In front of Parliament (the old palace); the guard changes every hour']);
+  const aK0=arcOf(...D.zones.kol[0]),aK1=arcOf(...D.zones.kol[1]);post(aK0-1.5,1,['往東北約 1 km：柯羅納基・利卡維多斯山','~1 km north-east: Kolonaki · Lycabettus Hill']);
   const aO=arcOf(...D.zones.olz);
   // ---- 照片擺位（依拍攝地點）
   const Z={ermou:[],pir:[],kol:[],olz:[]};photos.forEach((ph,k)=>{(Z[ph.zone]||Z.ermou).push([ph.ord??0,k]);});Object.values(Z).forEach(L=>L.sort((a,b)=>a[0]-b[0]));
@@ -212,5 +212,5 @@ export function buildSyntagma({D,path,PL,grp,canvasTex,rr,FONT,photos}){
     Z.pir.forEach(([o,k],i)=>{let d=(i+0.5)*tot/n,a=segs[0][0];for(const [s0,s1] of segs){if(d<=s1-s0){a=s0+d;break;}d-=s1-s0;a=s1;}place[k]={a,sd:i%2?1:-1,off:2.35,sc:0.9};});}
   Z.olz.forEach(([o,k])=>{place[k]={a:aO,sd:1,off:2.4,sc:0.9};});
   Z.kol.forEach(([o,k],i)=>{place[k]={a:aK0+(i+0.5)*(aK1-aK0)/Z.kol.length,sd:i%2?1:-1,off:2.5,sc:0.9};});
-  post(aO-1.4,1,['↓ 沿 Amalias 大道往南約 700 m','奧林匹亞宙斯神殿']);
+  post(aO-1.4,1,['↓ 沿 Amalias 大道往南約 700 m：奧林匹亞宙斯神殿','↓ ~700 m south along Amalias Ave: Temple of Olympian Zeus']);
   return {place,aEnd:Math.max(...place.map(p=>p.a))+2};}

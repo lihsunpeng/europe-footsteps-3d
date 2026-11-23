@@ -127,3 +127,15 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 #body .sl-b a,#body .sl-b button{flex:1 1 30%;min-height:44px;display:flex;align-items:center;justify-content:center;border:3px solid #fff;border-radius:999px;background:linear-gradient(180deg,var(--p1),var(--p2));color:#fff;font-weight:800;font-size:14px;box-shadow:0 3px 0 #c94a62;text-decoration:none;padding:4px 10px}
 #body .sl-b button[data-copy]{background:linear-gradient(180deg,#ffd0a8,var(--p4));box-shadow:0 3px 0 #d9733d}
 #body .sl-m{font-size:12px;color:#a0586c;min-height:1.2em;margin-top:4px}
+/* v3.7 中英對照 bilingual */
+#tabs button small{display:block;font-size:10px;font-weight:600;opacity:.85;line-height:1.1}
+#body .cta button small{display:block;font-size:11px;font-weight:700;opacity:.92}
+#body .sl-b a,#body .sl-b button{flex-direction:column;line-height:1.15}
+#body .sl-b a small,#body .sl-b button small{display:block;font-size:10.5px;font-weight:700;opacity:.92}
+#body figcaption .en{display:block;color:#b45a74;font-size:10.5px;font-weight:600}
+#body .sl-t small.en{display:block;font-size:12px;color:#a0586c;font-weight:700;margin-top:2px}
+#body .list button .tt small.en{color:#a0586c}
+#body .enh{margin:10px 0 2px;font-size:12.5px;color:#c2456e}
+.lab .e{font-style:normal;font-size:10px;font-weight:700;color:#b45a74;margin-left:2px}
+.lab.sel .e{color:#fff}
+@media (max-width:760px){#tabs button small{font-size:9px}}
