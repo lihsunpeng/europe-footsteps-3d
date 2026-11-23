@@ -100,3 +100,17 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
   #panel{height:42vh;height:42dvh}
   #phead .en,#phead .pr{display:none}
 }
+
+/* v2 */
+#fade{position:fixed;inset:0;background:#ffe3ec;opacity:0;pointer-events:none;z-index:30;transition:opacity .35s}
+#fade.on{opacity:1}
+.lab.cl{background:linear-gradient(180deg,#fff,#ffeef3);border-color:var(--p2);font-size:12.5px}
+.lab.cl .d{font-size:10px}
+.lab.big{font-size:15px;padding:5px 12px;border-width:3px}
+.lab.tw{border-color:var(--p3)}
+#body .cta{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+#body .cta button{flex:1 1 auto;min-height:44px;border:3px solid #fff;border-radius:999px;background:linear-gradient(180deg,var(--p1),var(--p2));color:#fff;font-weight:800;font-size:14px;box-shadow:0 3px 0 #c94a62;padding:6px 12px}
+#body .cta button+button{background:linear-gradient(180deg,#ffd0a8,var(--p4));box-shadow:0 3px 0 #d9733d}
+#body figcaption small{color:#b47a8a}
+#body .small{font-size:11px;color:#b47a8a}
+.lab.compact{padding:1px 6px;font-size:11px}.lab.compact .nm{display:none}.lab.compact .d{display:inline;margin-left:3px;font-size:10.5px}

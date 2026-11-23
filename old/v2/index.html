@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>石板路上的足跡 3D｜Footprints on Cobblestones</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23F894BB'/%3E%3Cpath d='M32 14c-8 0-13 6-13 13 0 9 13 23 13 23s13-14 13-23c0-7-5-13-13-13z' fill='%23fff'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="style.css?v=1">
+<link rel="stylesheet" href="style.css?v=2.1">
 <script type="importmap">{"imports":{"three":"./assets/three/build/three.module.js","three/addons/":"./assets/three/examples/jsm/"}}</script>
 </head>
 <body>
@@ -14,15 +14,15 @@
 <header id="top">
   <div id="title"><span class="t1">石板路上的足跡 3D</span><span class="t2">Footprints on Cobblestones · 2026 希臘・土耳其・義大利・波蘭</span></div>
   <nav id="views" aria-label="導覽 Tour">
-    <button data-v="all" class="on">全覽<small>All</small></button>
-    <button data-v="t1">冬季<small>地中海</small></button>
-    <button data-v="t2">夏季<small>波蘭</small></button>
+    <button data-v="globe">地球<small>Globe</small></button>
+    <button data-v="europe" class="on">歐洲<small>Map</small></button>
+    <button data-v="street">石板路<small>Walk</small></button>
     <button id="prev" aria-label="上一站">◀<small>上一站</small></button>
     <button id="tour" aria-pressed="false">導覽<small>Tour</small></button>
     <button id="next" aria-label="下一站">▶<small>下一站</small></button>
   </nav>
 </header>
-<div id="hint">點站點看照片・拖曳旋轉・雙指縮放<span> Tap a pin · drag to rotate · pinch to zoom</span></div>
+<div id="hint">拖曳轉地球・點站點飛過去・雙指縮放<span> Drag · tap a pin · pinch to zoom</span></div>
 <aside id="panel" class="folded-none">
   <button id="fold" aria-label="收合／展開">▾</button>
   <div id="phead"></div>
@@ -34,7 +34,8 @@
   <div id="lbsc"><img id="lbimg" alt=""></div>
   <div id="lbcap"></div>
 </div>
+<div id="fade"></div>
 <div id="loading">載入歐洲足跡中…</div>
-<script type="module" src="main.js?v=1"></script>
+<script type="module" src="main.js?v=2.1"></script>
 </body>
 </html>

@@ -114,3 +114,16 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 #body figcaption small{color:#b47a8a}
 #body .small{font-size:11px;color:#b47a8a}
 .lab.compact{padding:1px 6px;font-size:11px}.lab.compact .nm{display:none}.lab.compact .d{display:inline;margin-left:3px;font-size:10.5px}
+
+/* v3 本站專屬連結（石板路下層） */
+#body .slink{margin:12px 0 4px;background:#fff;border:3px solid var(--p1);border-radius:20px;padding:10px 12px;box-shadow:0 3px 0 var(--p2);transition:box-shadow .3s}
+#body .slink.flash{box-shadow:0 0 0 5px #ffd0a8,0 3px 0 var(--p2)}
+#body .sl-h{font-weight:800;color:var(--p2);font-size:13px}
+#body .sl-t{font-weight:800;font-size:17px;margin:4px 0 2px;display:flex;align-items:center;gap:6px}
+#body .sl-t b{color:#fff;border-radius:10px;padding:1px 8px;font-size:14px}
+#body .sl-d{font-size:13px;color:#c2456e;font-weight:700}
+#body .sl-u{width:100%;margin:8px 0 6px;font:inherit;font-size:12px;color:var(--ink);border:2px solid #ffd1df;border-radius:12px;padding:8px 10px;background:#fff6f8}
+#body .sl-b{display:flex;gap:6px;flex-wrap:wrap}
+#body .sl-b a,#body .sl-b button{flex:1 1 30%;min-height:44px;display:flex;align-items:center;justify-content:center;border:3px solid #fff;border-radius:999px;background:linear-gradient(180deg,var(--p1),var(--p2));color:#fff;font-weight:800;font-size:14px;box-shadow:0 3px 0 #c94a62;text-decoration:none;padding:4px 10px}
+#body .sl-b button[data-copy]{background:linear-gradient(180deg,#ffd0a8,var(--p4));box-shadow:0 3px 0 #d9733d}
+#body .sl-m{font-size:12px;color:#a0586c;min-height:1.2em;margin-top:4px}

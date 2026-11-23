@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-const V='2';
+const V='3';
 const $=s=>document.querySelector(s);
 const isPhone=()=>innerWidth<=760;
 const [GEO,DATA]=await Promise.all([fetch('data/geo.json?v='+V).then(r=>r.json()),fetch('data/stations.json?v='+V).then(r=>r.json())]);
@@ -130,11 +130,16 @@ street.add(new THREE.HemisphereLight(0xfff6f8,0xf3c3cf,1.3));
 const ssun=new THREE.DirectionalLight(0xfff1e0,1.6);ssun.position.set(10,20,8);ssun.castShadow=true;ssun.shadow.mapSize.set(1024,1024);
 Object.assign(ssun.shadow.camera,{left:-20,right:20,top:20,bottom:-20,near:1,far:60});street.add(ssun);street.add(ssun.target);
 const GAP=16, NS=ST.length;
-const pathPts=[];for(let i=-1;i<=NS+1;i++){pathPts.push(new THREE.Vector3(Math.sin(i*0.9)*5,0,-i*GAP));}
+// v3: 每站路段長度依照片數伸縮（照片多的站，石板路更長）
+const segL=i=>(i<0||i>=NS)?GAP:Math.max(GAP,1.6+ST[i].photos.length*1.15+4);
+const zAt=[];{let z=0;for(let i=-1;i<=NS+1;i++){zAt.push(z);z+=segL(i);}}
+const ZT=zAt[zAt.length-1];
+const pathPts=[];for(let i=-1;i<=NS+1;i++){pathPts.push(new THREE.Vector3(Math.sin(i*0.9)*5,0,-zAt[i+1]));}
 const path=new THREE.CatmullRomCurve3(pathPts);
-const uAt=i=>(i+1)/(NS+2);const PL=path.getLength();
+const PL=path.getLength();
+const uAt=(()=>{const N=6000,pts=[];for(let k=0;k<=N;k++)pts.push(path.getPointAt(k/N));return i=>{const q=pathPts[i+1];let b=0,bd=1e9;for(let k=0;k<=N;k++){const d=pts[k].distanceToSquared(q);if(d<bd){bd=d;b=k;}}return b/N;};})();
 // ground
-{const g=new THREE.PlaneGeometry(140,(NS+4)*GAP);g.rotateX(-Math.PI/2);const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:0xfbe3d9,roughness:1}));m.position.set(0,-0.02,-(NS*GAP)/2);m.receiveShadow=true;street.add(m);}
+{const g=new THREE.PlaneGeometry(140,ZT+4*GAP);g.rotateX(-Math.PI/2);const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial({color:0xfbe3d9,roughness:1}));m.position.set(0,-0.02,-ZT/2);m.receiveShadow=true;street.add(m);}
 // cobblestones (instanced)
 {const W=3.4,step=0.46;const n=Math.floor(PL/step);const per=Math.floor(W/step);const geo=new THREE.SphereGeometry(0.25,8,5);geo.scale(1,0.32,1);
  const im=new THREE.InstancedMesh(geo,new THREE.MeshStandardMaterial({roughness:.85}),n*per);const m4=new THREE.Matrix4(),q=new THREE.Quaternion(),col=new THREE.Color();let k=0;
@@ -144,7 +149,7 @@ const uAt=i=>(i+1)/(NS+2);const PL=path.getLength();
    q.setFromAxisAngle(new THREE.Vector3(0,1,0),Math.random()*3);const sc=0.85+Math.random()*0.3;m4.compose(pos,q,new THREE.Vector3(sc,1,sc));im.setMatrixAt(k,m4);im.setColorAt(k,col.setHex(pal[(Math.random()*pal.length)|0]));k++;}}
  im.count=k;im.receiveShadow=true;street.add(im);}
 // trees & flowers (instanced)
-{const tN=260;const trunk=new THREE.InstancedMesh(new THREE.CylinderGeometry(0.12,0.16,1.2,6),new THREE.MeshStandardMaterial({color:0xc58b7a}),tN);
+{const tN=Math.round(260*ZT/((NS+2)*GAP));const trunk=new THREE.InstancedMesh(new THREE.CylinderGeometry(0.12,0.16,1.2,6),new THREE.MeshStandardMaterial({color:0xc58b7a}),tN);
  const crown=new THREE.InstancedMesh(new THREE.SphereGeometry(0.9,12,9),new THREE.MeshStandardMaterial({roughness:.7}),tN);const m4=new THREE.Matrix4(),col=new THREE.Color();
  const pal=[0xffb7cf,0xffcfa8,0xbfe5b0,0xa8dcb5,0xffd6e4];
  for(let i=0;i<tN;i++){const u=Math.random();const p=path.getPointAt(u);const tg=path.getTangentAt(u);const side=new THREE.Vector3(-tg.z,0,tg.x);const off=(Math.random()<.5?-1:1)*(7+Math.random()*16);
@@ -169,6 +174,17 @@ ST.forEach((s,i)=>{const grp=new THREE.Group();street.add(grp);s.sg=grp;s.su=uAt
   const board=new THREE.Mesh(new THREE.PlaneGeometry(4.6,1.62),new THREE.MeshBasicMaterial({map:tex,transparent:true}));board.position.set(0,3.05,0.02);gate.add(board);
   const back=board.clone();back.rotation.y=Math.PI;back.position.z=-0.02;gate.add(back);
   board.userData.st=s;streetPick.push(board);
+  if(s.v3){// 石板路下層：本站專屬連結地牌（可點）
+    const lt=canvasTex(1024,420,(g,w,h)=>{rr(g,10,10,w-20,h-20,70);g.fillStyle='#fff';g.fill();g.lineWidth=16;g.strokeStyle=CCs[s.iso];g.stroke();
+      g.fillStyle=CCs[s.iso];rr(g,48,40,330,72,36);g.fill();g.fillStyle='#fff';g.font=`900 44px ${FONT}`;g.textAlign='center';g.fillText('本站專屬連結',213,92);
+      g.textAlign='left';g.fillStyle='#6b2a3a';g.font=`900 70px ${FONT}`;g.fillText(`${pad(s.n)} ${s.zh}`,48,190,w-96);
+      g.font=`800 50px ${FONT}`;g.fillStyle='#c2456e';g.fillText('參訪日期 '+s.date,48,262);
+      g.font=`700 36px ${FONT}`;g.fillStyle='#a0586c';g.fillText(stationURL(s).replace(/^https?:\/\//,''),48,322,w-96);
+      g.font=`800 34px ${FONT}`;g.fillStyle='#ED6578';g.fillText('點一下：開啟・複製・分享',48,376);});
+    const pl=new THREE.Mesh(new THREE.PlaneGeometry(3.6,1.48),new THREE.MeshBasicMaterial({map:lt,transparent:true}));
+    pl.position.set(0,0.66,3.0);pl.rotation.x=-Math.PI/2+0.8;gate.add(pl);
+    const base=new THREE.Mesh(new THREE.BoxGeometry(3.8,0.16,1.1),new THREE.MeshStandardMaterial({color:CC[s.iso],roughness:.5}));base.position.set(0,0.07,3.0);base.castShadow=true;gate.add(base);
+    pl.userData={st:s,link:true};base.userData={st:s,link:true};streetPick.push(pl,base);}
   s.frames=[];
   s.photos.forEach((ph,k)=>{const u=s.su+(1.6+k*1.15)/PL;const pp=path.getPointAt(Math.min(.999,u)),tt=path.getTangentAt(Math.min(.999,u));const side=new THREE.Vector3(-tt.z,0,tt.x);const sd=k%2?1:-1;
     const fg=new THREE.Group();fg.position.copy(pp).addScaledVector(side,sd*2.6);fg.lookAt(pp.clone().addScaledVector(tt,-5).setY(0));grp.add(fg);
@@ -230,10 +246,21 @@ function render(){const s=cur;if(!s)return showHome();phead.innerHTML=stationHea
     <p>${esc(s.zhText)}</p><div class="grid">${s.photos.slice(0,4).map((p,i)=>fig(p,i,'photos')).join('')}</div>
     <details><summary>English text（演講原文）</summary><p class="entext">${esc(s.enText)}</p></details>`;}
   else if(tab==='photos')h=`<div class="grid">${s.photos.map((p,i)=>fig(p,i,'photos')).join('')}</div>`;
+  if(s.v3&&tab!=='arts')h+=linkCard(s);
   else h=`<div class="grid">${s.arts.map((p,i)=>fig(p,i,'arts',true)).join('')}</div>`;
-  body.innerHTML=h;body.scrollTop=0;
+  body.innerHTML=h;body.scrollTop=0;bindLink(s);
   body.querySelectorAll('figure').forEach(f=>f.onclick=()=>openLB(f.dataset.k,+f.dataset.i));
   const g=body.querySelector('[data-go=street]');if(g)g.onclick=()=>enterStreet(s);const m=body.querySelector('[data-go=map]');if(m)m.onclick=()=>exitStreet(s);}
+function stationURL(s){return location.origin+location.pathname+'?v='+V+'&s='+s.n;}
+function linkCard(s){const u=stationURL(s);return `<section class="slink" id="slink"><div class="sl-h">🔗 本站專屬連結</div>
+  <div class="sl-t"><b style="background:${CCs[s.iso]}">${pad(s.n)}</b>${esc(s.zh)}</div><div class="sl-d">參訪日期 ${s.date}・照片 ${s.photos.length} 張</div>
+  <input class="sl-u" readonly value="${esc(u)}" aria-label="本站網址">
+  <div class="sl-b"><a href="${esc(u)}">開啟此站</a><button data-copy>複製連結</button>${navigator.share?'<button data-share>分享</button>':''}</div><div class="sl-m" aria-live="polite"></div></section>`;}
+function bindLink(s){const c=body.querySelector('#slink');if(!c)return;const u=stationURL(s),msg=c.querySelector('.sl-m');
+  const inp=c.querySelector('.sl-u');inp.onclick=()=>inp.select();
+  c.querySelector('[data-copy]').onclick=async()=>{let ok=false;try{await navigator.clipboard.writeText(u);ok=true;}catch(e){try{inp.select();ok=document.execCommand('copy');}catch(e2){}}msg.textContent=ok?'已複製，可以貼給朋友了':'請長按上方網址複製';};
+  const sh=c.querySelector('[data-share]');if(sh)sh.onclick=()=>navigator.share({title:`${pad(s.n)} ${s.zh}｜石板路上的足跡 3D`,text:`參訪日期 ${s.date}`,url:u}).catch(()=>{});}
+function showLink(s){cur=s;tab='intro';openPanel();render();const c=body.querySelector('#slink');if(c){body.scrollTop+=c.getBoundingClientRect().top-body.getBoundingClientRect().top-8;c.classList.add('flash');setTimeout(()=>c.classList.remove('flash'),1600);}}
 const fig=(p,i,k,wide)=>`<figure class="${wide?'wide':''}" data-k="${k}" data-i="${i}"><img loading="lazy" src="${p.t}?v=${V}" alt="${esc(p.cap)}"><figcaption>${esc(p.cap)}${p.day?`<small> ・${p.day}</small>`:''}</figcaption></figure>`;
 function openPanel(){panel.classList.remove('folded');$('#fold').textContent='▾';}
 function select(s,opts={}){cur=s;tab='intro';$('#hint').style.display='none';if(!opts.keepPanel)openPanel();render();
@@ -268,7 +295,7 @@ function stepWalk(){if(!walk)return;const k=Math.min(1,(performance.now()-walk.s
   const blend=Math.min(1,k*4);camera.position.lerpVectors(walk.p0,P,blend);controls.target.lerpVectors(walk.t0,Tt,blend);
   if(k>=1){const w=walk;walk=null;controls.enabled=true;w.done&&w.done();}}
 function glide(s,done){// slow look along this station's photos
-  const u0=s.su,u1=s.su+(1.6+s.photos.length*1.15)/PL;walk={s:performance.now(),dur:6500,p0:camera.position.clone(),t0:controls.target.clone(),u0,u1,done};controls.enabled=false;}
+  const u0=s.su,u1=s.su+(1.6+s.photos.length*1.15)/PL;walk={s:performance.now(),dur:Math.min(15000,6500*Math.max(1,s.photos.length/11)),p0:camera.position.clone(),t0:controls.target.clone(),u0,u1,done};controls.enabled=false;}
 // ================= nav =================
 function setFilter(f,move=true){filter=f;ST.forEach(s=>s.obj.visible=f==='all'||s.trip===f);routes.forEach(r=>r.tube.visible=f==='all'||r.trip===f);stars.forEach(st=>st.m.visible=st.r.tube.visible);if(move)flyTo(viewEurope(f),1400);}
 document.querySelectorAll('#views [data-v]').forEach(b=>b.onclick=()=>{stopTour();const v=b.dataset.v;
@@ -293,7 +320,7 @@ const ray=new THREE.Raycaster(),mv=new THREE.Vector2();let down=null;
 renderer.domElement.addEventListener('pointerdown',e=>{down=[e.clientX,e.clientY];});
 renderer.domElement.addEventListener('pointerup',e=>{if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>6)return;mv.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);ray.setFromCamera(mv,camera);
   if(mode==='map'){const h=ray.intersectObjects(pickables.filter(o=>o.userData.st.obj.visible),false)[0];if(h)select(h.object.userData.st);}
-  else{const h=ray.intersectObjects(streetPick,false)[0];if(!h)return;const d=h.object.userData;if(d.k!==undefined){cur=d.st;render();openLB('photos',d.k);}else select(d.st);}});
+  else{const h=ray.intersectObjects(streetPick,false)[0];if(!h)return;const d=h.object.userData;if(d.link){showLink(d.st);stopTour();return;}if(d.k!==undefined){cur=d.st;render();openLB('photos',d.k);}else select(d.st);}});
 
 // ================= labels =================
 const labWrap=$('#labels');
@@ -343,5 +370,5 @@ setFilter('all',false);showHome();setNav();if(isPhone()){panel.classList.add('fo
 setTimeout(()=>$('#loading').classList.add('done'),150);
 const qs=new URLSearchParams(location.search);
 window.__ready=true;
-if(qs.get('s')){const s=ST.find(x=>x.n==qs.get('s'));if(s){viewName='europe';setNav();setTimeout(()=>select(s),200);}}
+if(qs.get('s')){const s=ST.find(x=>x.n==qs.get('s'));if(s){viewName='europe';setNav();setTimeout(()=>select(s,{done:s.v3&&qs.get('walk')!=='0'?()=>setTimeout(()=>enterStreet(s),500):null}),200);}}
 else setTimeout(()=>{if(!fly&&!cur){viewName='europe';setNav();flyTo(viewEurope(),2600);}},1300);
