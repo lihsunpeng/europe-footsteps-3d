@@ -246,8 +246,8 @@ function render(){const s=cur;if(!s)return showHome();phead.innerHTML=stationHea
     <p>${esc(s.zhText)}</p><div class="grid">${s.photos.slice(0,4).map((p,i)=>fig(p,i,'photos')).join('')}</div>
     <details><summary>English text（演講原文）</summary><p class="entext">${esc(s.enText)}</p></details>`;}
   else if(tab==='photos')h=`<div class="grid">${s.photos.map((p,i)=>fig(p,i,'photos')).join('')}</div>`;
-  if(s.v3&&tab!=='arts')h+=linkCard(s);
   else h=`<div class="grid">${s.arts.map((p,i)=>fig(p,i,'arts',true)).join('')}</div>`;
+  if(s.v3&&tab!=='arts')h+=linkCard(s);
   body.innerHTML=h;body.scrollTop=0;bindLink(s);
   body.querySelectorAll('figure').forEach(f=>f.onclick=()=>openLB(f.dataset.k,+f.dataset.i));
   const g=body.querySelector('[data-go=street]');if(g)g.onclick=()=>enterStreet(s);const m=body.querySelector('[data-go=map]');if(m)m.onclick=()=>exitStreet(s);}
