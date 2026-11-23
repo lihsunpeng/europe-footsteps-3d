@@ -1,0 +1,1362 @@
+{
+"title": "石板路上的足跡：用設計人的眼睛看歐洲",
+"titleEn": "Footprints on Cobblestones: Seeing Europe Through a Designer's Eyes",
+"lecture": "雲林科技大學 創意生活設計系 演講・2026-10-13",
+"stations": [
+{
+"n": 1,
+"folder": "01 希臘 20260122-25 雅典藝術現場",
+"iso": "GR",
+"country": "希臘",
+"countryEn": "Greece",
+"zh": "雅典藝術現場",
+"en": "Athens Art Scene: Streets, Markets & Museums",
+"date": "2026-01-22～25",
+"photoRange": "2026-01-22～01-26",
+"loc": "athens",
+"xy": [
+4.345,
+-8.317
+],
+"photoCount": 36,
+"ready": true,
+"enText": "These first four days in Athens (雅典) and its port, Piraeus (比雷埃夫斯), read the city as a layered palimpsest (城市層疊). Classical ruins sit inside a Neoclassical (新古典主義) capital rebuilt after 1834: the Corinthian colonnade (科林斯柱廊) of Hadrian's Library stands beside the Monastiraki metro, and the columns of the Temple of Olympian Zeus (奧林匹亞宙斯神殿) show the Roman scale of the classical orders (古典柱式). At Syntagma Square (憲法廣場) the Evzones (總統衛隊) perform a choreographed changing of the guard, while the Little Metropolis (小主教座堂) reuses carved spolia (再利用石材). Everyday design is just as instructive: handwritten price cards at the Central Market (中央市場), graffiti in Psirri (普西里) and the themed façade of Little Kook show vernacular typography (庶民字體) and immersive branding (沉浸式品牌). The Archaeological Museum of Piraeus adds monumental bronze casting (青銅鑄造), with the bronze Athena and a tragic mask, Geometric (幾何風格) and black-figure (黑繪) vases, and stelae crowned by palmettes (棕櫚葉飾): a compact history of Greek ornament in a single port museum. Meeting local people (與在地人互動), from two Athenians on the street, was part of the journey too: travel is also learning from people, not only from buildings. At the University of Piraeus (比雷埃夫斯大學) we met Stelios, a student there, and shared lunch with him in the university cafeteria (大學餐廳), a first friendship in Greece.",
+"zhText": "抵達雅典的前四天，把城市當成一層層疊起來的書來讀：哈德良圖書館的科林斯柱廊就在莫納斯提拉基地鐵站旁，奧林匹亞宙斯神殿展現羅馬尺度的古典柱式；憲法廣場的總統衛隊交接是一場編舞，小主教座堂則把古老石雕再利用在牆上。中央市場的手寫價目卡、普西里的塗鴉與 Little Kook 主題立面，是最生動的庶民字體與沉浸式品牌。比雷埃夫斯考古博物館的青銅雅典娜、悲劇面具、幾何風格與黑繪陶瓶、棕櫚葉飾墓碑，一館看盡希臘裝飾史。也在比雷埃夫斯大學認識了學生 Stelios，在學生餐廳共進午餐。",
+"overview": "photos/01/00_00_overview.webp",
+"map": "photos/01/00_map.webp",
+"photos": [
+{
+"f": "photos/01/2026-01-22_15-48-53.webp",
+"t": "photos/01/2026-01-22_15-48-53_t.webp",
+"cap": "Arrival at the Metropolitan Cathedral square",
+"src": "2026-01-22 15-48-53.jpeg"
+},
+{
+"f": "photos/01/2026-01-22_17-41-55.webp",
+"t": "photos/01/2026-01-22_17-41-55_t.webp",
+"cap": "Acropolis as visual anchor at night",
+"src": "2026-01-22 17-41-55.jpeg"
+},
+{
+"f": "photos/01/2026-01-22_19-12-45.webp",
+"t": "photos/01/2026-01-22_19-12-45_t.webp",
+"cap": "Floodlit Corinthian colonnade, Hadrian's Library",
+"src": "2026-01-22 19-12-45.jpeg"
+},
+{
+"f": "photos/01/2026-01-22_19-22-32.webp",
+"t": "photos/01/2026-01-22_19-22-32_t.webp",
+"cap": "Plaka shop lighting",
+"src": "2026-01-22 19-22-32.jpeg"
+},
+{
+"f": "photos/01/2026-01-22_19-24-05.webp",
+"t": "photos/01/2026-01-22_19-24-05_t.webp",
+"cap": "Monastiraki shopfronts and scooters",
+"src": "2026-01-22 19-24-05.jpeg"
+},
+{
+"f": "photos/01/2026-01-22_19-29-59.webp",
+"t": "photos/01/2026-01-22_19-29-59_t.webp",
+"cap": "In situ display of excavated remains",
+"src": "2026-01-22 19-29-59.jpeg"
+},
+{
+"f": "photos/01/2026-01-23_09-33-54.webp",
+"t": "photos/01/2026-01-23_09-33-54_t.webp",
+"cap": "Graffiti-style café lettering",
+"src": "2026-01-23 09-33-54.jpeg"
+},
+{
+"f": "photos/01/2026-01-23_09-37-30.webp",
+"t": "photos/01/2026-01-23_09-37-30_t.webp",
+"cap": "Handwritten price cards, Central Market",
+"src": "2026-01-23 09-37-30.jpeg"
+},
+{
+"f": "photos/01/2026-01-23_10-20-23.webp",
+"t": "photos/01/2026-01-23_10-20-23_t.webp",
+"cap": "Hilltop view over Athens",
+"src": "2026-01-23 10-20-23.jpeg"
+},
+{
+"f": "photos/01/2026-01-23_13-45-41.webp",
+"t": "photos/01/2026-01-23_13-45-41_t.webp",
+"cap": "Evzones guard and sentry box",
+"src": "2026-01-23 13-45-41.jpeg"
+},
+{
+"f": "photos/01/2026-01-23_13-57-30.webp",
+"t": "photos/01/2026-01-23_13-57-30_t.webp",
+"cap": "Changing of the guard, Tomb of the Unknown Soldier",
+"src": "2026-01-23 13-57-30.jpeg"
+},
+{
+"f": "photos/01/2026-01-23_14-41-58.webp",
+"t": "photos/01/2026-01-23_14-41-58_t.webp",
+"cap": "Little Metropolis, Byzantine church",
+"src": "2026-01-23 14-41-58.jpeg"
+},
+{
+"f": "photos/01/2026-01-23_14-42-52.webp",
+"t": "photos/01/2026-01-23_14-42-52_t.webp",
+"cap": "Spolia: griffin relief",
+"src": "2026-01-23 14-42-52.jpeg"
+},
+{
+"f": "photos/01/2026-01-24_09-46-27.webp",
+"t": "photos/01/2026-01-24_09-46-27_t.webp",
+"cap": "Graffiti shopfronts, Psirri",
+"src": "2026-01-24 09-46-27.jpeg"
+},
+{
+"f": "photos/01/2026-01-24_09-55-05.webp",
+"t": "photos/01/2026-01-24_09-55-05_t.webp",
+"cap": "Basket and craft shop",
+"src": "2026-01-24 09-55-05.jpeg"
+},
+{
+"f": "photos/01/2026-01-24_10-26-17.webp",
+"t": "photos/01/2026-01-24_10-26-17_t.webp",
+"cap": "Little Kook themed façade",
+"src": "2026-01-24 10-26-17.jpeg"
+},
+{
+"f": "photos/01/2026-01-24_10-41-52.webp",
+"t": "photos/01/2026-01-24_10-41-52_t.webp",
+"cap": "Patterned cement tiles",
+"src": "2026-01-24 10-41-52.jpeg"
+},
+{
+"f": "photos/01/2026-01-24_11-00-51.webp",
+"t": "photos/01/2026-01-24_11-00-51_t.webp",
+"cap": "Ancient ruins below Neoclassical houses",
+"src": "2026-01-24 11-00-51.jpeg"
+},
+{
+"f": "photos/01/2026-01-24_11-39-15.webp",
+"t": "photos/01/2026-01-24_11-39-15_t.webp",
+"cap": "Virgin mosaic on church wall",
+"src": "2026-01-24 11-39-15.jpeg"
+},
+{
+"f": "photos/01/2026-01-24_14-46-09.webp",
+"t": "photos/01/2026-01-24_14-46-09_t.webp",
+"cap": "Corinthian columns, Temple of Olympian Zeus",
+"src": "2026-01-24 14-46-09.jpeg"
+},
+{
+"f": "photos/01/2026-01-25_09-54-56.webp",
+"t": "photos/01/2026-01-25_09-54-56_t.webp",
+"cap": "Street mural on building",
+"src": "2026-01-25 09-54-56.jpeg"
+},
+{
+"f": "photos/01/2026-01-25_10-14-42.webp",
+"t": "photos/01/2026-01-25_10-14-42_t.webp",
+"cap": "Neoclassical façade",
+"src": "2026-01-25 10-14-42.jpeg"
+},
+{
+"f": "photos/01/2026-01-25_12-45-22.webp",
+"t": "photos/01/2026-01-25_12-45-22_t.webp",
+"cap": "Bronze tragic mask",
+"src": "2026-01-25 12-45-22.jpeg"
+},
+{
+"f": "photos/01/2026-01-25_12-57-59.webp",
+"t": "photos/01/2026-01-25_12-57-59_t.webp",
+"cap": "Bronze Athena gallery",
+"src": "2026-01-25 12-57-59.jpeg"
+},
+{
+"f": "photos/01/2026-01-25_13-04-30.webp",
+"t": "photos/01/2026-01-25_13-04-30_t.webp",
+"cap": "Black-figure decoration",
+"src": "2026-01-25 13-04-30.jpeg"
+},
+{
+"f": "photos/01/2026-01-25_13-09-48.webp",
+"t": "photos/01/2026-01-25_13-09-48_t.webp",
+"cap": "Geometric-style vase",
+"src": "2026-01-25 13-09-48.jpeg"
+},
+{
+"f": "photos/01/2026-01-25_13-58-30.webp",
+"t": "photos/01/2026-01-25_13-58-30_t.webp",
+"cap": "Headless marble statues",
+"src": "2026-01-25 13-58-30.jpeg"
+},
+{
+"f": "photos/01/2026-01-25_14-13-11.webp",
+"t": "photos/01/2026-01-25_14-13-11_t.webp",
+"cap": "Palmette (anthemion) finial on stele",
+"src": "2026-01-25 14-13-11.jpeg"
+},
+{
+"f": "photos/01/2026-01-25_14-14-35.webp",
+"t": "photos/01/2026-01-25_14-14-35_t.webp",
+"cap": "Theatre of Zea remains",
+"src": "2026-01-25 14-14-35.jpeg"
+},
+{
+"f": "photos/01/2026-01-22_23-54-24.webp",
+"t": "photos/01/2026-01-22_23-54-24_t.webp",
+"cap": "Presenter on site",
+"src": "2026-01-22 23-54-24.jpeg"
+},
+{
+"f": "photos/01/2026-01-23_16-16-50.webp",
+"t": "photos/01/2026-01-23_16-16-50_t.webp",
+"cap": "Presenter on site",
+"src": "2026-01-23 16-16-50.jpeg"
+},
+{
+"f": "photos/01/2026-01-24_13-38-47.webp",
+"t": "photos/01/2026-01-24_13-38-47_t.webp",
+"cap": "Presenter on site",
+"src": "2026-01-24 13-38-47.jpeg"
+},
+{
+"f": "photos/01/2026-01-25_13-24-12.webp",
+"t": "photos/01/2026-01-25_13-24-12_t.webp",
+"cap": "Presenter on site",
+"src": "2026-01-25 13-24-12.jpeg"
+},
+{
+"f": "photos/01/2026-01-25_13-03-32.webp",
+"t": "photos/01/2026-01-25_13-03-32_t.webp",
+"cap": "Interaction · With two local Athenians",
+"src": "2026-01-25 13-03-32.jpeg"
+},
+{
+"f": "photos/01/2026-01-22_Stelios.webp",
+"t": "photos/01/2026-01-22_Stelios_t.webp",
+"cap": "Interaction · With Stelios, a University of Piraeus student",
+"src": "2026-01-22 Stelios.jpg"
+},
+{
+"f": "photos/01/2026-01-26_Stelios.webp",
+"t": "photos/01/2026-01-26_Stelios_t.webp",
+"cap": "Interaction · Lunch with Stelios at the university cafeteria",
+"src": "2026-01-26 Stelios.jpg"
+}
+],
+"arts": [
+{
+"f": "photos/01/00_01_art_classical-orders.webp",
+"t": "photos/01/00_01_art_classical-orders_t.webp",
+"cap": "The Three Classical Orders 古典三柱式",
+"src": "00_01_art_classical-orders.jpg"
+},
+{
+"f": "photos/01/00_02_art_greek-vase-styles.webp",
+"t": "photos/01/00_02_art_greek-vase-styles_t.webp",
+"cap": "Greek Vase Painting Styles 希臘陶瓶彩繪風格",
+"src": "00_02_art_greek-vase-styles.jpg"
+}
+],
+"photoNote": "照片檔時間 2026-01-22～01-26"
+},
+{
+"n": 2,
+"folder": "02 希臘 2026-01-26 MSC Lirica 郵輪",
+"iso": "GR",
+"country": "希臘",
+"countryEn": "Greece",
+"zh": "MSC Lirica 郵輪",
+"en": "MSC Lirica Cruise",
+"date": "2026-01-26",
+"photoRange": "2026-01-26～02-02",
+"loc": "piraeus",
+"xy": [
+4.282,
+-8.362
+],
+"photoCount": 20,
+"ready": false,
+"photoNote": "照片檔時間 2026-01-26～02-02"
+},
+{
+"n": 3,
+"folder": "03 土耳其 2026-01-27 以弗所",
+"iso": "TR",
+"country": "土耳其",
+"countryEn": "Türkiye",
+"zh": "以弗所",
+"en": "Ephesus",
+"date": "2026-01-27",
+"photoRange": "2026-01-27",
+"loc": "ephesus",
+"xy": [
+7.478,
+-7.705
+],
+"photoCount": 18,
+"ready": true,
+"enText": "Ephesus (以弗所) is one of the best-preserved cities of the Roman East and a UNESCO World Heritage Site. Walking down Curetes Street (庫瑞忒斯大道) toward the Library of Celsus (塞爾蘇斯圖書館) shows Roman urban design (羅馬城市設計): a paved, sloping street lined with fountains and monuments that ends in a framed vista (端景). The library façade, built in the early second century AD, is a two-storey screen of paired columns and aediculae (壁龕框架), richly carved with Corinthian capitals (科林斯柱頭) and scroll ornament (渦卷紋). On the Temple of Hadrian (哈德良神廟), an arch springs from the entablature (柱頂楣構) between columns, a typically Roman variation on the Greek temple front. In the Terrace Houses (山坡宅邸), wealthy homes preserve floor mosaics (馬賽克地板) in geometric patterns and fragments of wall painting (壁畫). Together they show how Roman builders combined classical orders, ornament and engineering into theatrical urban scenery. The scale of the library façade is best understood with a person standing in front of it, which the photographs here allow.",
+"zhText": "以弗所是羅馬東方保存最完整的城市之一（世界遺產）。沿著庫瑞忒斯大道往下走，盡頭就是塞爾蘇斯圖書館，示範羅馬城市設計的「端景」手法。圖書館立面是兩層成對柱與壁龕框架組成的屏幕，刻滿科林斯柱頭與渦卷紋；哈德良神廟在柱頂楣構中間拱起一道「敘利亞拱」，是羅馬人對希臘神廟正面的變奏。山坡宅邸保存了幾何馬賽克地板與壁畫殘片。站在圖書館前的人像照，最能看出立面的尺度。",
+"overview": "photos/03/00_00_overview.webp",
+"map": "photos/03/00_map.webp",
+"photos": [
+{
+"f": "photos/03/2026-01-27_08-37-49.webp",
+"t": "photos/03/2026-01-27_08-37-49_t.webp",
+"cap": "Carved scroll ornament",
+"src": "2026-01-27 08-37-49.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_08-39-19.webp",
+"t": "photos/03/2026-01-27_08-39-19_t.webp",
+"cap": "Curetes Street toward the Library of Celsus",
+"src": "2026-01-27 08-39-19.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_08-41-33.webp",
+"t": "photos/03/2026-01-27_08-41-33_t.webp",
+"cap": "Corinthian capital fragment",
+"src": "2026-01-27 08-41-33.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_08-47-48.webp",
+"t": "photos/03/2026-01-27_08-47-48_t.webp",
+"cap": "Arch of the Temple of Hadrian",
+"src": "2026-01-27 08-47-48.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_08-48-48.webp",
+"t": "photos/03/2026-01-27_08-48-48_t.webp",
+"cap": "Doorway with carved lintel",
+"src": "2026-01-27 08-48-48.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_08-55-26.webp",
+"t": "photos/03/2026-01-27_08-55-26_t.webp",
+"cap": "Geometric floor mosaic",
+"src": "2026-01-27 08-55-26.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_08-59-07.webp",
+"t": "photos/03/2026-01-27_08-59-07_t.webp",
+"cap": "Terrace Houses",
+"src": "2026-01-27 08-59-07.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_09-10-55.webp",
+"t": "photos/03/2026-01-27_09-10-55_t.webp",
+"cap": "Wall-painting fragments",
+"src": "2026-01-27 09-10-55.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_09-12-05.webp",
+"t": "photos/03/2026-01-27_09-12-05_t.webp",
+"cap": "Detail: mosaic portrait, Terrace Houses",
+"src": "2026-01-27 09-12-05.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_09-31-06.webp",
+"t": "photos/03/2026-01-27_09-31-06_t.webp",
+"cap": "Person in front of the Library of Celsus (scale)",
+"src": "2026-01-27 09-31-06.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_09-34-00.webp",
+"t": "photos/03/2026-01-27_09-34-00_t.webp",
+"cap": "Detail: statue of a Virtue in a façade niche, Library of Celsus",
+"src": "2026-01-27 09-34-00.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_09-35-21.webp",
+"t": "photos/03/2026-01-27_09-35-21_t.webp",
+"cap": "Library façade with paired columns",
+"src": "2026-01-27 09-35-21.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_09-41-43.webp",
+"t": "photos/03/2026-01-27_09-41-43_t.webp",
+"cap": "Gate of Mazaeus and Mithridates, carved inscription",
+"src": "2026-01-27 09-41-43.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_09-50-59.webp",
+"t": "photos/03/2026-01-27_09-50-59_t.webp",
+"cap": "Library of Celsus seen across the lower agora",
+"src": "2026-01-27 09-50-59.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_11-14-53.webp",
+"t": "photos/03/2026-01-27_11-14-53_t.webp",
+"cap": "Hand-knotted carpet detail",
+"src": "2026-01-27 11-14-53.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_11-16-25.webp",
+"t": "photos/03/2026-01-27_11-16-25_t.webp",
+"cap": "Painted ceiling and mosaic",
+"src": "2026-01-27 11-16-25.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_09-05-13.webp",
+"t": "photos/03/2026-01-27_09-05-13_t.webp",
+"cap": "Presenter in the Terrace Houses",
+"src": "2026-01-27 09-05-13.jpeg"
+},
+{
+"f": "photos/03/2026-01-27_09-39-14.webp",
+"t": "photos/03/2026-01-27_09-39-14_t.webp",
+"cap": "Presenter on site",
+"src": "2026-01-27 09-39-14.jpeg"
+}
+],
+"arts": [
+{
+"f": "photos/03/00_01_art_celsus-library-facade.webp",
+"t": "photos/03/00_01_art_celsus-library-facade_t.webp",
+"cap": "Library of Celsus: A Façade as Stage Set 塞爾蘇斯圖書館立面解析",
+"src": "00_01_art_celsus-library-facade.jpg"
+},
+{
+"f": "photos/03/00_02_art_hadrian-temple-syrian-arch.webp",
+"t": "photos/03/00_02_art_hadrian-temple-syrian-arch_t.webp",
+"cap": "Temple of Hadrian: The Syrian Arch 哈德良神廟：敘利亞拱",
+"src": "00_02_art_hadrian-temple-syrian-arch.jpg"
+}
+],
+"photoNote": ""
+},
+{
+"n": 4,
+"folder": "04 土耳其 2026-01-28 伊斯坦堡藍色清真寺與大巴扎",
+"iso": "TR",
+"country": "土耳其",
+"countryEn": "Türkiye",
+"zh": "伊斯坦堡藍色清真寺與大巴扎",
+"en": "Istanbul: Blue Mosque & Grand Bazaar",
+"date": "2026-01-28",
+"photoRange": "2026-01-28",
+"loc": "istanbul",
+"xy": [
+8.117,
+-4.049
+],
+"photoCount": 19,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 5,
+"folder": "05 希臘 2026-01-30 科孚島",
+"iso": "GR",
+"country": "希臘",
+"countryEn": "Greece",
+"zh": "科孚島",
+"en": "Corfu",
+"date": "2026-01-30",
+"photoRange": "2026-01-30",
+"loc": "corfu",
+"xy": [
+0.81,
+-7.023
+],
+"photoCount": 18,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 6,
+"folder": "06 義大利 2026-01-31 阿爾貝羅貝洛蘑菇屋與巴里",
+"iso": "IT",
+"country": "義大利",
+"countryEn": "Italy",
+"zh": "阿爾貝羅貝洛蘑菇屋與巴里",
+"en": "Alberobello Trulli & Bari",
+"date": "2026-01-31",
+"photoRange": "2026-01-31",
+"loc": "alberobello",
+"xy": [
+-1.603,
+-6.006
+],
+"photoCount": 18,
+"ready": true,
+"enText": "The trulli (蘑菇屋) of Alberobello (阿爾貝羅貝洛), a UNESCO World Heritage Site, are a striking case of vernacular architecture (風土建築). They are built by dry-stone construction (乾砌石構造), without mortar: thick whitewashed (石灰粉刷) walls carry conical roofs made of corbelled (疊澀) limestone slabs, each ring stepping slightly inward until the cone closes. A carved pinnacle (屋頂尖飾) often crowns the top, and many roofs carry symbols painted in white lime, religious, astrological or protective signs that work like a vernacular sign system (符號系統); an information board explains their meanings. Seen from above, the clustered cones form a repetitive, almost modular townscape (模組化聚落). The trullo form is also used in larger buildings, as the church interior shows. In the afternoon in Bari (巴里), the narrow lanes of the old town and a Baroque (巴洛克) church façade show a contrasting southern Italian urban tradition of stone, light and ornament. The trulli show how local material, climate and construction method together produce a strong regional identity.",
+"zhText": "阿爾貝羅貝洛的蘑菇屋（Trulli，世界遺產）是風土建築的經典：不用灰漿的乾砌石構造，厚厚的石灰白牆上，用石灰岩片一圈圈向內疊澀收成圓錐屋頂，頂端再加上雕刻尖飾。屋頂上用白灰畫的宗教、星象與護身符號，像一套民間的符號系統。從高處看，成群的圓錐屋頂形成近乎模組化的聚落。下午到巴里，舊城窄巷、仿羅馬式鐘樓與巴洛克教堂立面，呈現南義另一種石、光與裝飾的城市傳統。",
+"overview": "photos/06/00_00_overview.webp",
+"map": "photos/06/00_map.webp",
+"photos": [
+{
+"f": "photos/06/2026-01-31_07-50-20.webp",
+"t": "photos/06/2026-01-31_07-50-20_t.webp",
+"cap": "Bari harbour at dawn from the ship",
+"src": "2026-01-31 07-50-20.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_11-39-22.webp",
+"t": "photos/06/2026-01-31_11-39-22_t.webp",
+"cap": "Hillside street with decorative lights",
+"src": "2026-01-31 11-39-22.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_11-41-29.webp",
+"t": "photos/06/2026-01-31_11-41-29_t.webp",
+"cap": "Clustered trulli from above",
+"src": "2026-01-31 11-41-29.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_11-43-59.webp",
+"t": "photos/06/2026-01-31_11-43-59_t.webp",
+"cap": "Detail: trullo cone and chimney",
+"src": "2026-01-31 11-43-59.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_11-44-26.webp",
+"t": "photos/06/2026-01-31_11-44-26_t.webp",
+"cap": "Detail: corbelled conical stone roofs",
+"src": "2026-01-31 11-44-26.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_11-59-47.webp",
+"t": "photos/06/2026-01-31_11-59-47_t.webp",
+"cap": "Souvenir models of trulli",
+"src": "2026-01-31 11-59-47.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_12-12-17.webp",
+"t": "photos/06/2026-01-31_12-12-17_t.webp",
+"cap": "Trullo shop",
+"src": "2026-01-31 12-12-17.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_12-18-40.webp",
+"t": "photos/06/2026-01-31_12-18-40_t.webp",
+"cap": "Painted roof symbols",
+"src": "2026-01-31 12-18-40.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_12-21-18.webp",
+"t": "photos/06/2026-01-31_12-21-18_t.webp",
+"cap": "Church interior",
+"src": "2026-01-31 12-21-18.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_12-22-04.webp",
+"t": "photos/06/2026-01-31_12-22-04_t.webp",
+"cap": "Painted crucifixion in the trullo church",
+"src": "2026-01-31 12-22-04.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_12-35-13.webp",
+"t": "photos/06/2026-01-31_12-35-13_t.webp",
+"cap": "Group of trulli",
+"src": "2026-01-31 12-35-13.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_13-18-46.webp",
+"t": "photos/06/2026-01-31_13-18-46_t.webp",
+"cap": "Symbol information board",
+"src": "2026-01-31 13-18-46.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_13-18-51.webp",
+"t": "photos/06/2026-01-31_13-18-51_t.webp",
+"cap": "Board of pinnacle (pinnacolo) shapes",
+"src": "2026-01-31 13-18-51.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_15-11-41.webp",
+"t": "photos/06/2026-01-31_15-11-41_t.webp",
+"cap": "Bari Cathedral bell tower (Apulian Romanesque)",
+"src": "2026-01-31 15-11-41.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_15-14-10.webp",
+"t": "photos/06/2026-01-31_15-14-10_t.webp",
+"cap": "Detail: Romanesque carved brackets, Bari",
+"src": "2026-01-31 15-14-10.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_15-16-54.webp",
+"t": "photos/06/2026-01-31_15-16-54_t.webp",
+"cap": "Bari old town lane",
+"src": "2026-01-31 15-16-54.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_15-21-35.webp",
+"t": "photos/06/2026-01-31_15-21-35_t.webp",
+"cap": "Baroque church façade, Bari",
+"src": "2026-01-31 15-21-35.jpeg"
+},
+{
+"f": "photos/06/2026-01-31_11-40-05.webp",
+"t": "photos/06/2026-01-31_11-40-05_t.webp",
+"cap": "Presenter on site",
+"src": "2026-01-31 11-40-05.jpeg"
+}
+],
+"arts": [
+{
+"f": "photos/06/00_01_art_trullo-construction.webp",
+"t": "photos/06/00_01_art_trullo-construction_t.webp",
+"cap": "How a Trullo Is Built 蘑菇屋的構造",
+"src": "00_01_art_trullo-construction.jpg"
+},
+{
+"f": "photos/06/00_02_art_trulli-town-symbols.webp",
+"t": "photos/06/00_02_art_trulli-town-symbols_t.webp",
+"cap": "Trulli Town: Modules, Pinnacles and Signs 蘑菇屋聚落：模組、尖飾與符號",
+"src": "00_02_art_trulli-town-symbols.jpg"
+}
+],
+"photoNote": ""
+},
+{
+"n": 7,
+"folder": "07 希臘 20260203-04 古希臘考古與衛城",
+"iso": "GR",
+"country": "希臘",
+"countryEn": "Greece",
+"zh": "古希臘考古與衛城",
+"en": "Ancient Greece: National Archaeological Museum & Acropolis",
+"date": "2026-02-03～04",
+"photoRange": "2026-02-03～02-04",
+"loc": "athens",
+"xy": [
+4.345,
+-8.317
+],
+"photoCount": 22,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 8,
+"folder": "08 希臘 20260204-06 雅典博物館與新古典城市",
+"iso": "GR",
+"country": "希臘",
+"countryEn": "Greece",
+"zh": "雅典博物館與新古典城市",
+"en": "Athens Museums & the Neoclassical City",
+"date": "2026-02-04～06",
+"photoRange": "2026-02-04～02-06",
+"loc": "athens",
+"xy": [
+4.345,
+-8.317
+],
+"photoCount": 54,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 9,
+"folder": "09 希臘 20260207-10 阿提卡與德爾菲聖地",
+"iso": "GR",
+"country": "希臘",
+"countryEn": "Greece",
+"zh": "阿提卡與德爾菲聖地",
+"en": "Attica & Delphi: Daphni, Sounion, Philopappos & Delphi",
+"date": "2026-02-07～10",
+"photoRange": "2026-02-07～02-10",
+"loc": "delphi",
+"xy": [
+3.197,
+-7.944
+],
+"photoCount": 46,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 10,
+"folder": "10 希臘 20260211-12 拉羅尼斯珠寶與梅特歐拉",
+"iso": "GR",
+"country": "希臘",
+"countryEn": "Greece",
+"zh": "拉羅尼斯珠寶與梅特歐拉",
+"en": "Lalaounis Jewellery & the Monasteries of Meteora",
+"date": "2026-02-11～12",
+"photoRange": "2026-02-11～02-12",
+"loc": "meteora",
+"xy": [
+2.254,
+-6.708
+],
+"photoCount": 23,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 11,
+"folder": "11 希臘 20260214-15 雅典市集、舊國會與主教座堂",
+"iso": "GR",
+"country": "希臘",
+"countryEn": "Greece",
+"zh": "雅典市集、舊國會與主教座堂",
+"en": "Athens Street Market, Old Parliament & Cathedrals",
+"date": "2026-02-14～15",
+"photoRange": "2026-02-13～02-15",
+"loc": "athens",
+"xy": [
+4.345,
+-8.317
+],
+"photoCount": 32,
+"ready": false,
+"photoNote": "照片檔時間 2026-02-13～02-15"
+},
+{
+"n": 12,
+"folder": "12 土耳其 20260611-14 伊斯坦堡：街道、拜占庭與金角灣",
+"iso": "TR",
+"country": "土耳其",
+"countryEn": "Türkiye",
+"zh": "伊斯坦堡：街道、拜占庭與金角灣",
+"en": "Istanbul: Streets, Byzantium & the Golden Horn",
+"date": "2026-06-11～14",
+"photoRange": "2026-06-11～06-14",
+"loc": "istanbul",
+"xy": [
+8.117,
+-4.049
+],
+"photoCount": 67,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 13,
+"folder": "13 波蘭 20260615-21 華沙采風",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "華沙采風",
+"en": "Warsaw Sketchbook: Museums, Gardens & Streets",
+"date": "2026-06-15～21",
+"photoRange": "2026-06-15～06-21",
+"loc": "warsaw",
+"xy": [
+-0.238,
+6.973
+],
+"photoCount": 58,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 14,
+"folder": "14 波蘭 2026-06-18 卡齊米日多爾尼",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "卡齊米日多爾尼",
+"en": "Kazimierz Dolny",
+"date": "2026-06-18",
+"photoRange": "2026-06-18",
+"loc": "kazimierz",
+"xy": [
+0.557,
+6.073
+],
+"photoCount": 11,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 15,
+"folder": "15 波蘭 2026-06-19 托倫",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "托倫",
+"en": "Toruń",
+"date": "2026-06-19",
+"photoRange": "2026-06-19",
+"loc": "torun",
+"xy": [
+-1.974,
+7.619
+],
+"photoCount": 12,
+"ready": true,
+"enText": "The medieval town of Toruń (托倫), birthplace of Nicolaus Copernicus and a UNESCO World Heritage Site, is one of the best-preserved Brick Gothic (磚造哥德式) towns of the Hanseatic world. Brick Gothic developed around the Baltic, where good building stone was scarce: walls, towers and churches are built of red brick, and ornament is created through brick itself. Stepped gables (階梯山牆) are decorated with blind niches (盲龕), recessed panels that give rhythm and shadow without openings, and pointed windows are filled with tracery (花窗格) including rose motifs. The Leaning Tower (斜塔) and the city walls show the fortification system along the river. Inside churches, stained glass (彩繪玻璃) and Baroque (巴洛克) altars add colour and later layers. The Copernicus statue stands near the Town Hall. A steel truss bridge (鋼桁架橋) crosses the Vistula, and the Wozownia gallery's logo shows contemporary graphic design in the historic town.",
+"zhText": "托倫是哥白尼的故鄉，也是漢薩同盟世界保存最好的磚造哥德式城鎮之一（世界遺產）。波羅的海一帶缺乏好石材，牆、塔、教堂都用紅磚砌成，裝飾也靠磚本身完成：階梯山牆上的盲龕帶來節奏與陰影，尖拱窗裡有玫瑰紋花窗格。斜塔與城牆是沿河的防禦系統，教堂裡的彩繪玻璃與巴洛克祭壇則是後來的色彩層次。橫跨維斯瓦河的鋼桁架橋，和 Wozownia 藝廊的標誌，讓老城也看得到當代設計。",
+"overview": "photos/15/00_00_overview.webp",
+"map": "photos/15/00_map.webp",
+"photos": [
+{
+"f": "photos/15/2026-06-19_11-19-47.webp",
+"t": "photos/15/2026-06-19_11-19-47_t.webp",
+"cap": "Steel truss bridge over the Vistula",
+"src": "2026-06-19 11-19-47.jpeg"
+},
+{
+"f": "photos/15/2026-06-19_11-36-09.webp",
+"t": "photos/15/2026-06-19_11-36-09_t.webp",
+"cap": "Leaning Tower and city walls",
+"src": "2026-06-19 11-36-09.jpeg"
+},
+{
+"f": "photos/15/2026-06-19_11-39-09.webp",
+"t": "photos/15/2026-06-19_11-39-09_t.webp",
+"cap": "Detail: Brick Gothic stepped gable with blind niches",
+"src": "2026-06-19 11-39-09.jpeg"
+},
+{
+"f": "photos/15/2026-06-19_12-19-19.webp",
+"t": "photos/15/2026-06-19_12-19-19_t.webp",
+"cap": "Wozownia gallery logo",
+"src": "2026-06-19 12-19-19.jpeg"
+},
+{
+"f": "photos/15/2026-06-19_12-37-16.webp",
+"t": "photos/15/2026-06-19_12-37-16_t.webp",
+"cap": "Church stained glass",
+"src": "2026-06-19 12-37-16.jpeg"
+},
+{
+"f": "photos/15/2026-06-19_12-53-01.webp",
+"t": "photos/15/2026-06-19_12-53-01_t.webp",
+"cap": "Gabled old town houses",
+"src": "2026-06-19 12-53-01.jpeg"
+},
+{
+"f": "photos/15/2026-06-19_12-55-33.webp",
+"t": "photos/15/2026-06-19_12-55-33_t.webp",
+"cap": "Copernicus statue",
+"src": "2026-06-19 12-55-33.jpeg"
+},
+{
+"f": "photos/15/2026-06-19_13-19-34.webp",
+"t": "photos/15/2026-06-19_13-19-34_t.webp",
+"cap": "Stained glass detail",
+"src": "2026-06-19 13-19-34.jpeg"
+},
+{
+"f": "photos/15/2026-06-19_13-54-27.webp",
+"t": "photos/15/2026-06-19_13-54-27_t.webp",
+"cap": "Detail: Brick Gothic tracery with rose motifs",
+"src": "2026-06-19 13-54-27.jpeg"
+},
+{
+"f": "photos/15/2026-06-19_14-04-26.webp",
+"t": "photos/15/2026-06-19_14-04-26_t.webp",
+"cap": "Red-brick old town from above",
+"src": "2026-06-19 14-04-26.jpeg"
+},
+{
+"f": "photos/15/2026-06-19_14-16-01.webp",
+"t": "photos/15/2026-06-19_14-16-01_t.webp",
+"cap": "Baroque altar",
+"src": "2026-06-19 14-16-01.jpeg"
+},
+{
+"f": "photos/15/2026-06-19_14-01-11.webp",
+"t": "photos/15/2026-06-19_14-01-11_t.webp",
+"cap": "Presenter on site",
+"src": "2026-06-19 14-01-11.jpeg"
+}
+],
+"arts": [
+{
+"f": "photos/15/00_01_art_brick-gothic-hall-church.webp",
+"t": "photos/15/00_01_art_brick-gothic-hall-church_t.webp",
+"cap": "Brick Gothic Hall Churches 磚造哥德式廳堂教堂",
+"src": "00_01_art_brick-gothic-hall-church.jpg"
+},
+{
+"f": "photos/15/00_02_art_brick-bonds.webp",
+"t": "photos/15/00_02_art_brick-bonds_t.webp",
+"cap": "Brick Bonds: Pattern from Structure 砌磚法：從結構而來的圖案",
+"src": "00_02_art_brick-bonds.jpg"
+}
+],
+"photoNote": ""
+},
+{
+"n": 16,
+"folder": "16 波蘭 2026-06-20 羅茲：車站、工廠與皮奧特科夫斯卡街",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "羅茲：車站、工廠與皮奧特科夫斯卡街",
+"en": "Łódź: Station, Mills & Piotrkowska Street",
+"date": "2026-06-20",
+"photoRange": "2026-06-20",
+"loc": "lodz",
+"xy": [
+-1.222,
+6.304
+],
+"photoCount": 20,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 17,
+"folder": "17 波蘭 20260621-25 柯希基市場與歐洲團結中心",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "柯希基市場與歐洲團結中心",
+"en": "Hala Koszyki & the European Solidarity Centre",
+"date": "2026-06-21～25",
+"photoRange": "2026-06-21～06-25",
+"loc": "warsaw",
+"xy": [
+-0.238,
+6.973
+],
+"photoCount": 20,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 18,
+"folder": "18 波蘭 2026-06-22 弗羅茨瓦夫老城與百年廳",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "弗羅茨瓦夫老城與百年廳",
+"en": "Wrocław: Old Town, Dwarfs & Centennial Hall",
+"date": "2026-06-22",
+"photoRange": "2026-06-22",
+"loc": "wroclaw",
+"xy": [
+-2.809,
+5.394
+],
+"photoCount": 20,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 19,
+"folder": "19 波蘭 20260623-25 格但斯克老城與波浪大樓",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "格但斯克老城與波浪大樓",
+"en": "Gdańsk: Old Town & the Falowiec",
+"date": "2026-06-23～25",
+"photoRange": "2026-06-23～06-25",
+"loc": "gdansk",
+"xy": [
+-2.121,
+9.103
+],
+"photoCount": 19,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 20,
+"folder": "20 波蘭 2026-06-24 馬爾堡城堡",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "馬爾堡城堡",
+"en": "Malbork Castle",
+"date": "2026-06-24",
+"photoRange": "2026-06-24",
+"loc": "malbork",
+"xy": [
+-1.832,
+8.788
+],
+"photoCount": 12,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 21,
+"folder": "21 波蘭 20260626-27 索波特與格丁尼亞",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "索波特與格丁尼亞",
+"en": "Sopot & Gdynia: Resort and Modernist Port",
+"date": "2026-06-26～27",
+"photoRange": "2026-06-26～06-27",
+"loc": "sopot",
+"xy": [
+-2.189,
+9.195
+],
+"photoCount": 24,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 22,
+"folder": "22 波蘭 20260628-0701 海爾半島、西盤半島與瓦維爾城堡",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "海爾半島、西盤半島與瓦維爾城堡",
+"en": "Hel, Westerplatte & Wawel",
+"date": "2026-06-28～07-01",
+"photoRange": "2026-06-28～07-01",
+"loc": "hel",
+"xy": [
+-2.057,
+9.398
+],
+"photoCount": 37,
+"ready": false,
+"photoNote": ""
+},
+{
+"n": 23,
+"folder": "23 波蘭 20260702-05 克拉科夫老城、卡齊米日與植物園",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "克拉科夫老城、卡齊米日與植物園",
+"en": "Kraków: Old Town, Manggha, Kazimierz & Garden",
+"date": "2026-07-02～05",
+"photoRange": "2026-07-02～07-05",
+"loc": "krakow",
+"xy": [
+-0.633,
+4.478
+],
+"photoCount": 40,
+"ready": true,
+"enText": "Several days in Kraków (克拉科夫) move from medieval square to Japanese design, folk art and plant form. The Main Square (中央廣場) centres on the Cloth Hall (紡織會館) with its Renaissance parapet attic (女兒牆) and St Mary's Basilica (聖母聖殿), a Brick Gothic (磚造哥德式) church with unequal towers and Veit Stoss's altarpiece. Arata Isozaki's Manggha Museum (曼加日本藝術科技博物館, 1994) has a wave-like roof (波浪屋頂) and showed product design (產品設計) and Japanese typography (日文字型設計). In Kazimierz (卡齊米日), balancing acrobat sculptures (特技人雕塑) hang from the Bernatek footbridge, and the Ethnographic Museum (民族誌博物館) presents folk art (民俗藝術), paper cut-outs (剪紙) and the UNESCO-listed Kraków Nativity scenes (克拉科夫耶誕馬槽). The Jagiellonian University Botanical Garden (雅蓋隆大學植物園), founded in 1783, adds glasshouses (溫室) and a library of natural form (自然形態), the source of much biomorphic design (生物形態設計). City, craft and nature appear here as one continuous design education. Meeting local people (與在地人互動), from locals in Kraków, was part of the journey too: travel is also learning from people, not only from buildings.",
+"zhText": "在克拉科夫的幾天，從中世紀廣場一路走到日本設計、民俗藝術和植物形態。中央廣場的紡織會館有文藝復興式女兒牆，聖母聖殿是一高一低雙塔的磚造哥德式教堂。磯崎新設計的曼加日本藝術科技博物館（1994）有波浪屋頂，展出產品設計與日文字型設計。卡齊米日的伯納特克橋上懸著平衡特技人雕塑；民族誌博物館展出剪紙、民俗彩繪與列入世界遺產的克拉科夫耶誕馬槽。1783 年創立的雅蓋隆大學植物園溫室，則是一座自然形態的圖書館。",
+"overview": "photos/23/00_00_overview.webp",
+"map": "photos/23/00_map.webp",
+"photos": [
+{
+"f": "photos/23/2026-07-02_19-39-18.webp",
+"t": "photos/23/2026-07-02_19-39-18_t.webp",
+"cap": "Church of St Barbara façade",
+"src": "2026-07-02 19-39-18.jpeg"
+},
+{
+"f": "photos/23/2026-07-02_19-46-29.webp",
+"t": "photos/23/2026-07-02_19-46-29_t.webp",
+"cap": "Buildings around the Main Square",
+"src": "2026-07-02 19-46-29.jpeg"
+},
+{
+"f": "photos/23/2026-07-02_19-50-19.webp",
+"t": "photos/23/2026-07-02_19-50-19_t.webp",
+"cap": "Souvenir stalls in the Cloth Hall",
+"src": "2026-07-02 19-50-19.jpeg"
+},
+{
+"f": "photos/23/2026-07-02_19-53-51.webp",
+"t": "photos/23/2026-07-02_19-53-51_t.webp",
+"cap": "St Mary's Basilica towers and square",
+"src": "2026-07-02 19-53-51.jpeg"
+},
+{
+"f": "photos/23/2026-07-02_20-21-20.webp",
+"t": "photos/23/2026-07-02_20-21-20_t.webp",
+"cap": "Blue starry vault and crucifix",
+"src": "2026-07-02 20-21-20.jpeg"
+},
+{
+"f": "photos/23/2026-07-02_20-24-38.webp",
+"t": "photos/23/2026-07-02_20-24-38_t.webp",
+"cap": "Stained glass, St Mary's",
+"src": "2026-07-02 20-24-38.jpeg"
+},
+{
+"f": "photos/23/2026-07-02_20-34-40.webp",
+"t": "photos/23/2026-07-02_20-34-40_t.webp",
+"cap": "Painted starry vault",
+"src": "2026-07-02 20-34-40.jpeg"
+},
+{
+"f": "photos/23/2026-07-02_22-09-46.webp",
+"t": "photos/23/2026-07-02_22-09-46_t.webp",
+"cap": "Brick gable, Dominican church",
+"src": "2026-07-02 22-09-46.jpeg"
+},
+{
+"f": "photos/23/2026-07-02_22-22-06.webp",
+"t": "photos/23/2026-07-02_22-22-06_t.webp",
+"cap": "Arcaded courtyard, Collegium Maius",
+"src": "2026-07-02 22-22-06.jpeg"
+},
+{
+"f": "photos/23/2026-07-02_22-26-20.webp",
+"t": "photos/23/2026-07-02_22-26-20_t.webp",
+"cap": "Wrought-iron window grille",
+"src": "2026-07-02 22-26-20.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_16-46-33.webp",
+"t": "photos/23/2026-07-03_16-46-33_t.webp",
+"cap": "Glass architecture of the museum",
+"src": "2026-07-03 16-46-33.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_16-54-38.webp",
+"t": "photos/23/2026-07-03_16-54-38_t.webp",
+"cap": "Wave-shaped roof",
+"src": "2026-07-03 16-54-38.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_17-00-23.webp",
+"t": "photos/23/2026-07-03_17-00-23_t.webp",
+"cap": "Riverside path and Wawel Castle",
+"src": "2026-07-03 17-00-23.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_17-09-42.webp",
+"t": "photos/23/2026-07-03_17-09-42_t.webp",
+"cap": "Design exhibition hall",
+"src": "2026-07-03 17-09-42.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_17-11-55.webp",
+"t": "photos/23/2026-07-03_17-11-55_t.webp",
+"cap": "Tatung rice cooker",
+"src": "2026-07-03 17-11-55.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_17-12-52.webp",
+"t": "photos/23/2026-07-03_17-12-52_t.webp",
+"cap": "Origami and design objects",
+"src": "2026-07-03 17-12-52.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_17-15-43.webp",
+"t": "photos/23/2026-07-03_17-15-43_t.webp",
+"cap": "Medicine packaging design",
+"src": "2026-07-03 17-15-43.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_17-18-34.webp",
+"t": "photos/23/2026-07-03_17-18-34_t.webp",
+"cap": "Japanese typography panels",
+"src": "2026-07-03 17-18-34.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_17-20-03.webp",
+"t": "photos/23/2026-07-03_17-20-03_t.webp",
+"cap": "Glazed corridor",
+"src": "2026-07-03 17-20-03.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_19-04-23.webp",
+"t": "photos/23/2026-07-03_19-04-23_t.webp",
+"cap": "Acrobat sculpture on the Bernatek Footbridge",
+"src": "2026-07-03 19-04-23.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_19-04-57.webp",
+"t": "photos/23/2026-07-03_19-04-57_t.webp",
+"cap": "Footbridge sculpture from below",
+"src": "2026-07-03 19-04-57.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_19-24-37.webp",
+"t": "photos/23/2026-07-03_19-24-37_t.webp",
+"cap": "Corpus Christi Basilica altar",
+"src": "2026-07-03 19-24-37.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_19-47-11.webp",
+"t": "photos/23/2026-07-03_19-47-11_t.webp",
+"cap": "Polish folk floral wall painting",
+"src": "2026-07-03 19-47-11.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_19-47-43.webp",
+"t": "photos/23/2026-07-03_19-47-43_t.webp",
+"cap": "Painted wooden chest",
+"src": "2026-07-03 19-47-43.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_19-53-16.webp",
+"t": "photos/23/2026-07-03_19-53-16_t.webp",
+"cap": "Wooden windmill model",
+"src": "2026-07-03 19-53-16.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_20-09-27.webp",
+"t": "photos/23/2026-07-03_20-09-27_t.webp",
+"cap": "Kraków traditional costume",
+"src": "2026-07-03 20-09-27.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_20-18-05.webp",
+"t": "photos/23/2026-07-03_20-18-05_t.webp",
+"cap": "Paper-cut and embroidery patterns",
+"src": "2026-07-03 20-18-05.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_20-39-07.webp",
+"t": "photos/23/2026-07-03_20-39-07_t.webp",
+"cap": "Kraków Nativity scene",
+"src": "2026-07-03 20-39-07.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_20-57-05.webp",
+"t": "photos/23/2026-07-03_20-57-05_t.webp",
+"cap": "Nativity scene detail",
+"src": "2026-07-03 20-57-05.jpeg"
+},
+{
+"f": "photos/23/2026-07-05_15-21-33.webp",
+"t": "photos/23/2026-07-05_15-21-33_t.webp",
+"cap": "Globe thistle bed",
+"src": "2026-07-05 15-21-33.jpeg"
+},
+{
+"f": "photos/23/2026-07-05_15-47-43.webp",
+"t": "photos/23/2026-07-05_15-47-43_t.webp",
+"cap": "Roses",
+"src": "2026-07-05 15-47-43.jpeg"
+},
+{
+"f": "photos/23/2026-07-05_16-17-25.webp",
+"t": "photos/23/2026-07-05_16-17-25_t.webp",
+"cap": "Air plants in the glasshouse",
+"src": "2026-07-05 16-17-25.jpeg"
+},
+{
+"f": "photos/23/2026-07-05_16-19-06.webp",
+"t": "photos/23/2026-07-05_16-19-06_t.webp",
+"cap": "Glasshouse plants",
+"src": "2026-07-05 16-19-06.jpeg"
+},
+{
+"f": "photos/23/2026-07-05_16-42-20.webp",
+"t": "photos/23/2026-07-05_16-42-20_t.webp",
+"cap": "Palms in the glasshouse",
+"src": "2026-07-05 16-42-20.jpeg"
+},
+{
+"f": "photos/23/2026-07-05_17-02-48.webp",
+"t": "photos/23/2026-07-05_17-02-48_t.webp",
+"cap": "Neoclassical former observatory",
+"src": "2026-07-05 17-02-48.jpeg"
+},
+{
+"f": "photos/23/2026-07-02_20-08-55.webp",
+"t": "photos/23/2026-07-02_20-08-55_t.webp",
+"cap": "Presenter on site (Cloth Hall)",
+"src": "2026-07-02 20-08-55.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_17-03-18.webp",
+"t": "photos/23/2026-07-03_17-03-18_t.webp",
+"cap": "Presenter on site (Wawel across the Vistula)",
+"src": "2026-07-03 17-03-18.jpeg"
+},
+{
+"f": "photos/23/2026-07-03_19-04-45.webp",
+"t": "photos/23/2026-07-03_19-04-45_t.webp",
+"cap": "Presenter on site (footbridge)",
+"src": "2026-07-03 19-04-45.jpeg"
+},
+{
+"f": "photos/23/2026-07-05_15-23-51.webp",
+"t": "photos/23/2026-07-05_15-23-51_t.webp",
+"cap": "Presenter on site",
+"src": "2026-07-05 15-23-51.jpeg"
+},
+{
+"f": "photos/23/2026-07-02_16-34-10.webp",
+"t": "photos/23/2026-07-02_16-34-10_t.webp",
+"cap": "Interaction · With a local in Kraków",
+"src": "2026-07-02 16-34-10.jpeg"
+}
+],
+"arts": [
+{
+"f": "photos/23/00_01_art_cloth-hall-layers.webp",
+"t": "photos/23/00_01_art_cloth-hall-layers_t.webp",
+"cap": "The Cloth Hall: Three Layers of History 紡織會館：三層歷史",
+"src": "00_01_art_cloth-hall-layers.jpg"
+},
+{
+"f": "photos/23/00_02_art_st-marys-towers.webp",
+"t": "photos/23/00_02_art_st-marys-towers_t.webp",
+"cap": "St Mary's Basilica: Two Towers, Two Roles 聖母聖殿：雙塔兩用",
+"src": "00_02_art_st-marys-towers.jpg"
+},
+{
+"f": "photos/23/00_03_art_manggha-wave-roof.webp",
+"t": "photos/23/00_03_art_manggha-wave-roof_t.webp",
+"cap": "Manggha: Architecture as a Wave 曼加：如波浪的建築",
+"src": "00_03_art_manggha-wave-roof.jpg"
+},
+{
+"f": "photos/23/00_04_art_japanese-three-scripts.webp",
+"t": "photos/23/00_04_art_japanese-three-scripts_t.webp",
+"cap": "Japanese Typography: Three Scripts 日文字體設計：三種文字",
+"src": "00_04_art_japanese-three-scripts.jpg"
+},
+{
+"f": "photos/23/00_05_art_balancing-acrobats.webp",
+"t": "photos/23/00_05_art_balancing-acrobats_t.webp",
+"cap": "Balancing Acrobats: Physics as Public Art 平衡特技人：物理變成公共藝術",
+"src": "00_05_art_balancing-acrobats.jpg"
+},
+{
+"f": "photos/23/00_06_art_krakow-szopka.webp",
+"t": "photos/23/00_06_art_krakow-szopka_t.webp",
+"cap": "The Kraków Szopka: A City in Miniature 克拉科夫耶誕馬槽：縮小的城市",
+"src": "00_06_art_krakow-szopka.jpg"
+},
+{
+"f": "photos/23/00_07_art_glasshouse-climate.webp",
+"t": "photos/23/00_07_art_glasshouse-climate_t.webp",
+"cap": "The Glasshouse: A Machine for Climate 溫室：製造氣候的機器",
+"src": "00_07_art_glasshouse-climate.jpg"
+},
+{
+"f": "photos/23/00_08_art_phyllotaxis.webp",
+"t": "photos/23/00_08_art_phyllotaxis_t.webp",
+"cap": "Phyllotaxis: Nature's Pattern Generator 葉序：自然的圖案產生器",
+"src": "00_08_art_phyllotaxis.jpg"
+}
+],
+"photoNote": ""
+},
+{
+"n": 24,
+"folder": "24 波蘭 20260704-05 維利奇卡鹽礦與奧斯威辛紀念館",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "維利奇卡鹽礦與奧斯威辛紀念館",
+"en": "Wieliczka Salt Mine & Auschwitz-Birkenau",
+"date": "2026-07-04～05",
+"photoRange": "2026-07-04～07-06",
+"loc": "wieliczka",
+"xy": [
+-0.543,
+4.399
+],
+"photoCount": 22,
+"ready": false,
+"photoNote": "照片檔時間 2026-07-04～07-06"
+},
+{
+"n": 25,
+"folder": "25 波蘭 20260706-09 新胡塔與華沙天際線",
+"iso": "PL",
+"country": "波蘭",
+"countryEn": "Poland",
+"zh": "新胡塔與華沙天際線",
+"en": "From Nowa Huta to Warsaw: Socialist City & Skyline",
+"date": "2026-07-06～09",
+"photoRange": "2026-07-06～07-09",
+"loc": "warsaw",
+"xy": [
+-0.238,
+6.973
+],
+"photoCount": 54,
+"ready": false,
+"photoNote": ""
+}
+]
+}
