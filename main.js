@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {buildAthens} from './athens.js?v=3.3';
 const V='3';
 const $=s=>document.querySelector(s);
 const isPhone=()=>innerWidth<=760;
@@ -144,7 +145,8 @@ const uAt=(()=>{const N=6000,pts=[];for(let k=0;k<=N;k++)pts.push(path.getPointA
 {const W=3.4,step=0.46;const n=Math.floor(PL/step);const per=Math.floor(W/step);const geo=new THREE.SphereGeometry(0.25,8,5);geo.scale(1,0.32,1);
  const im=new THREE.InstancedMesh(geo,new THREE.MeshStandardMaterial({roughness:.85}),n*per);const m4=new THREE.Matrix4(),q=new THREE.Quaternion(),col=new THREE.Color();let k=0;
  const pal=[0xe9d6d0,0xf1dcd6,0xdcc6c2,0xf4c9cf,0xeedfcf,0xd9c3bd];
- for(let i=0;i<n;i++){const u=i/n;const p=path.getPointAt(u);const tg=path.getTangentAt(u);const side=new THREE.Vector3(-tg.z,0,tg.x);
+ const uSkip=ST[0].v3?uAt(1)-3/PL:0;
+ for(let i=0;i<n;i++){const u=i/n;if(u<uSkip)continue;const p=path.getPointAt(u);const tg=path.getTangentAt(u);const side=new THREE.Vector3(-tg.z,0,tg.x);
   for(let j=0;j<per;j++){const off=(j-(per-1)/2)*step+((i%2)?step/2:0)*0.5;const pos=p.clone().addScaledVector(side,off);pos.y=0.04;
    q.setFromAxisAngle(new THREE.Vector3(0,1,0),Math.random()*3);const sc=0.85+Math.random()*0.3;m4.compose(pos,q,new THREE.Vector3(sc,1,sc));im.setMatrixAt(k,m4);im.setColorAt(k,col.setHex(pal[(Math.random()*pal.length)|0]));k++;}}
  im.count=k;im.receiveShadow=true;street.add(im);}
@@ -196,6 +198,7 @@ ST.forEach((s,i)=>{const grp=new THREE.Group();street.add(grp);s.sg=grp;s.su=uAt
     const cap=new THREE.Mesh(new THREE.PlaneGeometry(1.9,0.45),new THREE.MeshBasicMaterial({map:capT,transparent:true}));cap.position.set(0,1.9-H/2-0.42,0.06);fg.add(cap);
     pic.userData={st:s,k};frame.userData={st:s,k};streetPick.push(pic,frame);s.frames.push({pic,ph,loaded:false});});
 });
+if(ST[0].v3)buildAthens({path,PL,uGate:ST[0].su,uEnd:uAt(1)-3/PL,grp:ST[0].sg,canvasTex,rr,FONT});
 function ensureTextures(i){for(let j=Math.max(0,i-1);j<=Math.min(NS-1,i+1);j++){for(const f of ST[j].frames){if(f.loaded)continue;f.loaded=true;loadTex(f.ph.t+'?v='+V).then(t=>{if(t){f.pic.material.map=t;f.pic.material.color.set(0xffffff);f.pic.material.needsUpdate=true;}});}}
   ST.forEach((s,j)=>s.sg.visible=Math.abs(j-i)<=2);}
 
