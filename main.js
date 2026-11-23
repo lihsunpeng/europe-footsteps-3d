@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {buildAthens} from './athens.js?v=3.7.2';
-import {buildSyntagma,synRoute} from './syntagma.js?v=3.7.2';
-import {buildScene} from './scene.js?v=3.7.2';
-const V='3.7.2';const PAGEV='3';// V=資源快取版本；PAGEV=對外網址版本
+import {buildAthens} from './athens.js?v=3.7.3';
+import {buildSyntagma,synRoute} from './syntagma.js?v=3.7.3';
+import {buildScene} from './scene.js?v=3.7.3';
+const V='3.7.3';const PAGEV='3';// V=資源快取版本；PAGEV=對外網址版本
 const $=s=>document.querySelector(s);
 const isPhone=()=>innerWidth<=760;
 const [GEO,DATA,SYND,RTS]=await Promise.all([fetch('data/geo.json?v='+V).then(r=>r.json()),fetch('data/stations.json?v='+V).then(r=>r.json()),fetch('data/syntagma.json?v='+V).then(r=>r.json()).catch(()=>null),fetch('data/routes.json?v='+V).then(r=>r.json()).catch(()=>({}))]);
@@ -307,7 +307,7 @@ function fade(cb){fader.classList.add('on');setTimeout(()=>{cb();setTimeout(()=>
 function setNav(){document.querySelectorAll('#views [data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===(mode==='street'?'street':viewName)));}
 let viewName='europe';
 let walk=null;
-let BACK=10/PL,AHEAD=9/PL,CH=3.0,TH=1.6;function streetCfg(){if(isPhone()){BACK=11/PL;AHEAD=8/PL;CH=3.6;TH=1.4;}else{BACK=12/PL;AHEAD=9/PL;CH=3.2;TH=1.6;}}streetCfg();addEventListener('resize',streetCfg);function camBA(u){return inSC(u)?[9/PL,7/PL]:[BACK,AHEAD];}function streetView(s){const u=s.su;const [bk,ah]=camBA(u);return {p:path.getPointAt(Math.max(0,u-bk)).setY(CH),t:path.getPointAt(Math.min(.999,u+ah)).setY(TH)};}
+let BACK=10/PL,AHEAD=9/PL,CH=3.0,TH=1.6;function streetCfg(){if(isPhone()){BACK=11/PL;AHEAD=8/PL;CH=3.6;TH=1.4;}else{BACK=12/PL;AHEAD=9/PL;CH=3.2;TH=1.6;}}streetCfg();addEventListener('resize',streetCfg);function camBA(u){for(const i in SC){const c=SC[i];if(u>=c.u0&&u<=c.u1)return [9/PL,Math.max(2/PL,Math.min(7/PL,c.u1-5/PL-u))];}return [BACK,AHEAD];}function streetView(s){const u=s.su;const [bk,ah]=camBA(u);return {p:path.getPointAt(Math.max(0,u-bk)).setY(CH),t:path.getPointAt(Math.min(.999,u+ah)).setY(TH)};}
 function enterStreet(s,done){fade(()=>{mode='street';camera.fov=isPhone()?68:50;camera.updateProjectionMatrix();viewName='street';cur=s;const v=streetView(s);camera.position.copy(v.p);controls.target.copy(v.t);
   controls.minDistance=1.5;controls.maxDistance=30;controls.maxPolarAngle=Math.PI*0.49;controls.enablePan=false;ensureTextures(ST.indexOf(s));labWrap.style.display='none';
   $('#hint').style.display='none';setNav();render();if(isPhone()){panel.classList.add('folded');$('#fold').textContent='▴';}done&&done();});}
