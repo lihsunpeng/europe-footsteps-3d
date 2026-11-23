@@ -2,9 +2,9 @@
 // 柱子造型與配色沿用 greek-orders-3d（簡化面數、合併成 InstancedMesh，手機也順）
 import * as THREE from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-const M=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.6,...o});
-const marble=M(0xfbf2ec,{roughness:.62}),leafM=M(0x7fb069,{roughness:.55,side:THREE.DoubleSide}),leafS=M(0xa9cf8a,{side:THREE.DoubleSide});
-const pPink=M(0xF894BB,{roughness:.5}),pCoral=M(0xED6578,{roughness:.5}),pRed=M(0xEA3C3C,{roughness:.5}),pOrange=M(0xF6925A,{roughness:.5}),pGold=M(0xE9A84C,{roughness:.35,metalness:.35});
+export const M=(c,o={})=>new THREE.MeshStandardMaterial({color:c,roughness:.6,...o});
+export const marble=M(0xfbf2ec,{roughness:.62}),leafM=M(0x7fb069,{roughness:.55,side:THREE.DoubleSide}),leafS=M(0xa9cf8a,{side:THREE.DoubleSide});
+export const pPink=M(0xF894BB,{roughness:.5}),pCoral=M(0xED6578,{roughness:.5}),pRed=M(0xEA3C3C,{roughness:.5}),pOrange=M(0xF6925A,{roughness:.5}),pGold=M(0xE9A84C,{roughness:.35,metalness:.35});
 const sideP=s=>[s,s,marble,marble,s,s];
 const lathe=(pts,seg=24,mat=marble)=>new THREE.Mesh(new THREE.LatheGeometry(pts.map(p=>new THREE.Vector2(p[0],p[1])),seg),mat);
 function shaft(R0,R1,H,n,depth,fillet){const ts=n*4,ys=6,pos=[],idx=[];
@@ -17,7 +17,7 @@ function shaft(R0,R1,H,n,depth,fillet){const ts=n*4,ys=6,pos=[],idx=[];
 const box=(w,h,d,y,mat=marble)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.y=y;return m;};
 function spiral(rOut,rIn,turns,tube,dir=1){const pts=[];for(let i=0;i<=60;i++){const t=i/60,a=Math.PI/2+dir*t*turns*Math.PI*2,r=rOut*Math.pow(rIn/rOut,t);pts.push(new THREE.Vector3(Math.cos(a)*r,Math.sin(a)*r,0));}
   return new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),60,tube,5,false),marble);}
-function doric(){const g=new THREE.Group(),R0=0.5,R1=0.39,H=4.9;g.add(shaft(R0,R1,H,20,0.07,0));
+export function doric(){const g=new THREE.Group(),R0=0.5,R1=0.39,H=4.9;g.add(shaft(R0,R1,H,20,0.07,0));
   for(let k=0;k<3;k++){const t=new THREE.Mesh(new THREE.TorusGeometry(R1+0.005,0.014,5,28),k===1?pCoral:pPink);t.rotation.x=Math.PI/2;t.position.y=H+0.03+k*0.035;g.add(t);}
   const pts=[];for(let i=0;i<=8;i++){const t=i/8;pts.push([R1+0.02+(0.62-R1)*Math.pow(Math.sin(t*Math.PI/2),0.55),H+0.11+t*0.24]);}pts.unshift([0,H+0.11],[R1+0.01,H+0.11]);pts.push([0,H+0.35]);
   g.add(lathe(pts));g.add(box(1.32,0.2,1.32,H+0.45,sideP(pPink)));g.userData.top=H+0.55;return g;}
@@ -25,7 +25,7 @@ function attic(R){const g=new THREE.Group();g.add(box(R*2.7,0.12,R*2.7,0.06));
   const t1=new THREE.Mesh(new THREE.TorusGeometry(R*1.12,R*0.2,8,28),marble);t1.rotation.x=Math.PI/2;t1.position.y=0.12+R*0.2;g.add(t1);
   g.add(lathe([[0,0.12+R*0.38],[R*1.12,0.12+R*0.38],[R*1.0,0.12+R*0.44],[R*0.98,0.12+R*0.52],[R*1.05,0.12+R*0.58],[0,0.12+R*0.58]]));
   const t2=new THREE.Mesh(new THREE.TorusGeometry(R*1.02,R*0.14,8,28),marble);t2.rotation.x=Math.PI/2;t2.position.y=0.12+R*0.70;g.add(t2);g.userData.top=0.12+R*0.8;return g;}
-function ionic(){const g=new THREE.Group(),R0=0.36,R1=0.305;const b=attic(R0);g.add(b);const y0=b.userData.top,H=5.55;const s=shaft(R0,R1,H,24,0.09,0.22);s.position.y=y0;g.add(s);const yc=y0+H;
+export function ionic(){const g=new THREE.Group(),R0=0.36,R1=0.305;const b=attic(R0);g.add(b);const y0=b.userData.top,H=5.55;const s=shaft(R0,R1,H,24,0.09,0.22);s.position.y=y0;g.add(s);const yc=y0+H;
   const ast=new THREE.Mesh(new THREE.TorusGeometry(R1+0.01,0.028,5,28),pOrange);ast.rotation.x=Math.PI/2;ast.position.y=yc+0.03;g.add(ast);
   g.add(lathe([[0,yc+0.05],[R1+0.02,yc+0.05],[R1+0.07,yc+0.12],[R1+0.07,yc+0.17],[0,yc+0.17]]));
   for(let i=0;i<12;i++){const a=i/12*Math.PI*2;const e=new THREE.Mesh(new THREE.SphereGeometry(0.05,6,5),i%2?pOrange:pCoral);e.scale.set(1,1.4,0.6);e.position.set(Math.sin(a)*(R1+0.08),yc+0.11,Math.cos(a)*(R1+0.08));e.rotation.y=a;g.add(e);}
@@ -41,7 +41,7 @@ function leafGeom(W,Hl,curl,lobes){const nu=6,nv=12,pos=[],idx=[];
       if(v>0.72){const k=(v-0.72)/0.28;y-=curl*0.35*Hl*k*k;z+=curl*0.22*Hl*k;}pos.push(x,y,z);}}
   for(let j=0;j<nv;j++)for(let i=0;i<nu;i++){const a=j*(nu+1)+i,b=a+nu+1;idx.push(a,a+1,b,b,a+1,b+1);}
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setIndex(idx);g.computeVertexNormals();return g;}
-function corinthian(){const g=new THREE.Group(),R0=0.33,R1=0.28;const b=attic(R0);g.add(b);const y0=b.userData.top,H=5.25;const s=shaft(R0,R1,H,24,0.09,0.22);s.position.y=y0;g.add(s);const yc=y0+H;
+export function corinthian(){const g=new THREE.Group(),R0=0.33,R1=0.28;const b=attic(R0);g.add(b);const y0=b.userData.top,H=5.25;const s=shaft(R0,R1,H,24,0.09,0.22);s.position.y=y0;g.add(s);const yc=y0+H;
   const ast=new THREE.Mesh(new THREE.TorusGeometry(R1+0.01,0.025,5,28),pOrange);ast.rotation.x=Math.PI/2;ast.position.y=yc+0.02;g.add(ast);const CH=0.95;
   g.add(lathe([[0,yc+0.03],[R1,yc+0.03],[R1+0.01,yc+0.3],[R1+0.05,yc+0.65],[R1+0.12,yc+CH-0.08],[R1+0.15,yc+CH-0.05],[0,yc+CH-0.05]]));
   const small=leafGeom(0.07,0.22,0.6,2);for(let i=0;i<12;i++){const a=i/12*Math.PI*2+Math.PI/12;const m=new THREE.Mesh(small,leafS);m.position.set(Math.sin(a)*(R1+0.005),yc+0.04,Math.cos(a)*(R1+0.005));m.rotation.y=a;g.add(m);}
@@ -59,7 +59,7 @@ function corinthian(){const g=new THREE.Group(),R0=0.33,R1=0.28;const b=attic(R0
   for(let i=0;i<4;i++){const a=i*Math.PI/2;const f=new THREE.Mesh(new THREE.SphereGeometry(0.06,8,6),pRed);f.scale.set(1,1,0.6);f.position.set(Math.sin(a)*(S-0.1),top-0.01,Math.cos(a)*(S-0.1));g.add(f);}
   g.userData.top=top+0.07;return g;}
 // 把一根柱子模型合併成「每種材質一個 geometry」，再用 InstancedMesh 一次畫多根
-function bake(g,HT){g.updateMatrixWorld(true);const s=HT/g.userData.top;const S=new THREE.Matrix4().makeScale(s,s,s);const by=new Map();
+export function bake(g,HT){g.updateMatrixWorld(true);const s=HT/g.userData.top;const S=new THREE.Matrix4().makeScale(s,s,s);const by=new Map();
   g.traverse(o=>{if(!o.isMesh)return;const mats=Array.isArray(o.material)?o.material:[o.material];
     let geo=o.geometry.index?o.geometry.toNonIndexed():o.geometry.clone();geo.applyMatrix4(new THREE.Matrix4().multiplyMatrices(S,o.matrixWorld));
     const keep=new THREE.BufferGeometry();keep.setAttribute('position',geo.attributes.position);keep.computeVertexNormals();
@@ -67,7 +67,7 @@ function bake(g,HT){g.updateMatrixWorld(true);const s=HT/g.userData.top;const S=
     else{const m=mats[0];(by.get(m)||by.set(m,[]).get(m)).push(keep);}});
   return [...by.entries()].map(([m,gs])=>[m,mergeGeometries(gs)]);}
 // 緊密拼貼的不規則方形石板（縫 0.02～0.05）
-function paving(path,PL,a0,a1,W){const pos=[],col=[],c=new THREE.Color();const pal=[0xf3e6dc,0xeadbd0,0xf6ebe3,0xe4d2c6,0xf0dcd4,0xf4d6d6,0xe9d3c8,0xf7efe8];
+export function paving(path,PL,a0,a1,W){const pos=[],col=[],c=new THREE.Color();const pal=[0xf3e6dc,0xeadbd0,0xf6ebe3,0xe4d2c6,0xf0dcd4,0xf4d6d6,0xe9d3c8,0xf7efe8];
   const P=(a,x)=>{const u=Math.min(.9999,Math.max(0,a/PL));const p=path.getPointAt(u),t=path.getTangentAt(u);return p.addScaledVector(new THREE.Vector3(-t.z,0,t.x),x);};
   const J=0.016,rnd=(a,b)=>a+Math.random()*(b-a);let a=a0,row=0;
   while(a<a1){const L=rnd(0.4,0.62),b=Math.min(a1,a+L);let x=-W/2+(row%2?rnd(0.12,0.26):0);const xs=[-W/2];
