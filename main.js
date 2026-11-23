@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {buildAthens} from './athens.js?v=3.10.1';
-import {buildSyntagma,synRoute} from './syntagma.js?v=3.10.1';
-import {buildScene} from './scene.js?v=3.10.1';
-const V='3.10.1';const PAGEV='3';// V=資源快取版本；PAGEV=對外網址版本
+import {buildAthens} from './athens.js?v=3.10.2';
+import {buildSyntagma,synRoute} from './syntagma.js?v=3.10.2';
+import {buildScene} from './scene.js?v=3.10.2';
+const V='3.10.2';const PAGEV='3';// V=資源快取版本；PAGEV=對外網址版本
 const $=s=>document.querySelector(s);
 const isPhone=()=>innerWidth<=760;
 const [GEO,DATA,SYND,RTS]=await Promise.all([fetch('data/geo.json?v='+V).then(r=>r.json()),fetch('data/stations.json?v='+V).then(r=>r.json()),fetch('data/syntagma.json?v='+V).then(r=>r.json()).catch(()=>null),fetch('data/routes.json?v='+V).then(r=>r.json()).catch(()=>({}))]);
@@ -177,6 +177,7 @@ const SCZ=Object.values(SC).map(c=>[c.off[1]+c.R.ext[1],c.off[1]+c.R.ext[0]]);co
   m4.makeScale(sc,sc*0.95,sc).setPosition(pos.x,1.7*sc,pos.z);crown.setMatrixAt(i,m4);crown.setColorAt(i,col.setHex(pal[i%pal.length]));if(hide){m4.makeScale(0,0,0);trunk.setMatrixAt(i,m4);crown.setMatrixAt(i,m4);}}
  trunk.castShadow=crown.castShadow=true;street.add(trunk,crown);}
 // station gates + photo boards
+function fitF(g,t,wt,mx,mn,W){let f=mx;g.font=`${wt} ${f}px ${FONT}`;while(f>mn&&g.measureText(t).width>W){f-=2;g.font=`${wt} ${f}px ${FONT}`;}}
 function canvasTex(w,h,draw){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;return t;}
 function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
 const FONT='"M PLUS Rounded 1c","Noto Sans CJK TC","PingFang TC",sans-serif';
@@ -189,7 +190,7 @@ ST.forEach((s,i)=>{const grp=new THREE.Group();street.add(grp);s.sg=grp;s.su=uAt
     const ball=new THREE.Mesh(new THREE.SphereGeometry(0.34,16,12),whiteM);ball.position.set(sx*2.3,3.55,0);gate.add(ball);}
   const tex=canvasTex(1024,360,(g,w,h)=>{rr(g,8,8,w-16,h-16,60);g.fillStyle='#fff';g.fill();g.lineWidth=14;g.strokeStyle=CCs[s.iso];g.stroke();
     g.fillStyle=CCs[s.iso];rr(g,40,42,150,110,40);g.fill();g.fillStyle='#fff';g.font=`900 78px ${FONT}`;g.textAlign='center';g.fillText(pad(s.n),115,124);
-    g.textAlign='left';g.fillStyle='#6b2a3a';g.font=`900 80px ${FONT}`;let t=s.short;g.fillText(t,215,112,w-250);g.font=`800 40px ${FONT}`;g.fillStyle='#c2456e';g.fillText(s.shortEn,217,160,w-250);
+    g.textAlign='left';g.fillStyle='#6b2a3a';fitF(g,s.short,900,80,50,w-250);let t=s.short;g.fillText(t,215,112,w-250);fitF(g,s.shortEn,800,40,30,w-250);g.fillStyle='#c2456e';g.fillText(s.shortEn,217,160,w-250);
     g.font=`800 50px ${FONT}`;g.fillStyle='#c2456e';g.fillText('參訪 Visited '+s.date,48,240,w-96);g.font=`700 42px ${FONT}`;g.fillStyle='#a0586c';g.fillText(`${s.country} ${s.countryEn}`,48,308);});
   const board=new THREE.Mesh(new THREE.PlaneGeometry(4.6,1.62),new THREE.MeshBasicMaterial({map:tex,transparent:true}));board.position.set(0,3.05,0.02);gate.add(board);
   const back=board.clone();back.rotation.y=Math.PI;back.position.z=-0.02;gate.add(back);
@@ -197,7 +198,7 @@ ST.forEach((s,i)=>{const grp=new THREE.Group();street.add(grp);s.sg=grp;s.su=uAt
   if(s.v3){// 石板路下層：本站專屬連結地牌（可點）
     const lt=canvasTex(1024,420,(g,w,h)=>{rr(g,10,10,w-20,h-20,70);g.fillStyle='#fff';g.fill();g.lineWidth=16;g.strokeStyle=CCs[s.iso];g.stroke();
       g.fillStyle=CCs[s.iso];rr(g,48,34,560,72,36);g.fill();g.fillStyle='#fff';g.font=`900 40px ${FONT}`;g.textAlign='center';g.fillText('本站專屬連結 Stop link',328,84);
-      g.textAlign='left';g.fillStyle='#6b2a3a';g.font=`900 62px ${FONT}`;g.fillText(`${pad(s.n)} ${s.zh}`,48,172,w-96);g.font=`800 38px ${FONT}`;g.fillStyle='#a0586c';g.fillText(s.en,48,218,w-96);
+      g.textAlign='left';g.fillStyle='#6b2a3a';fitF(g,`${pad(s.n)} ${s.zh}`,900,62,44,w-96);g.fillText(`${pad(s.n)} ${s.zh}`,48,172,w-96);fitF(g,s.en,800,38,28,w-96);g.fillStyle='#a0586c';g.fillText(s.en,48,218,w-96);
       g.font=`800 44px ${FONT}`;g.fillStyle='#c2456e';g.fillText('參訪日期 Visited '+s.date,48,272,w-96);
       g.font=`700 36px ${FONT}`;g.fillStyle='#a0586c';g.fillText(stationURL(s).replace(/^https?:\/\//,''),48,322,w-96);
       g.font=`800 34px ${FONT}`;g.fillStyle='#ED6578';g.fillText('點一下：開啟・複製・分享 Tap: open · copy · share',48,376,w-96);});
