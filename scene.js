@@ -99,10 +99,10 @@ function landmark(L,ctx){const {canvasTex,rr,FONT}=ctx;const g=new THREE.Group()
     const d=L.d||w*0.8,wd=L.wd||3.6,G=0.6;const wallM=M(L.brick?0xb8654f:0xf2e2cf,{roughness:.85}),roofM=M(0xc8735d,{roughness:.7}),colM=M(0xf7efe4,{roughness:.6});
     const lv=[h*0.3,h*0.3,h*0.4];const cg=[],ys=[];let y0=0;
     const sides=[[0,-d/2,w,1],[0,d/2,w,1],[-w/2,0,d,0],[w/2,0,d,0]];
-    sides.forEach(([cx,cz,len,alongX])=>{const out=alongX?Math.sign(cz):Math.sign(cx);const ow=(alongX?w+2*wd:d);const gap=alongX?2.6:0;
+    sides.forEach(([cx,cz,len,alongX])=>{const out=alongX?Math.sign(cz):Math.sign(cx);const ow=(alongX?w+2*wd:d);const gap=alongX?(L.gap||2.6):0;
       const mk=(L0,L1)=>{const ln=L1-L0,mid=(L0+L1)/2;const bx=alongX?box(ln,h,wd,wallM,mid,h/2,cz+out*wd/2):box(wd,h,ln,wallM,cx+out*wd/2,h/2,mid);g.add(bx);
         const rf=alongX?box(ln,0.35,wd+0.6,roofM,mid,h+0.17,cz+out*wd/2):box(wd+0.6,0.35,ln,roofM,cx+out*wd/2,h+0.17,mid);g.add(rf);};
-      const half=ow/2;if(gap){mk(-half,-gap/2);mk(gap/2,half);g.add(box(gap,h-lv[0],wd,wallM,0,lv[0]+(h-lv[0])/2,cz+out*wd/2));g.add(box(gap,0.35,wd+0.6,roofM,0,h+0.17,cz+out*wd/2));}else mk(-half,half);
+      const half=ow/2;if(gap){mk(-half,-gap/2);mk(gap/2,half);const lb=Math.min(h-0.6,Math.max(lv[0],4.8));g.add(box(gap,h-lb,wd,wallM,0,lb+(h-lb)/2,cz+out*wd/2));g.add(box(gap,0.35,wd+0.6,roofM,0,h+0.17,cz+out*wd/2));}else mk(-half,half);
       let yb=0;if(!L.plain)lv.forEach((lh,k)=>{const n=Math.max(3,Math.round(len/1.4));for(let i=0;i<=n;i++){const t=-len/2+len*i/n;if(gap&&Math.abs(t)<gap/2+0.2)continue;const px=alongX?t:cx-out*G,pz=alongX?cz-out*G:t;cg.push([px,yb,pz,lh,k]);}
         g.add(alongX?box(len,0.22,G*2,colM,0,yb+lh-0.11,cz-out*G*0.0):box(G*2,0.22,len,colM,cx,yb+lh-0.11,0));yb+=lh;});});
     if(cg.length){const geo=new THREE.CylinderGeometry(0.12,0.15,1,10);const im=new THREE.InstancedMesh(geo,colM,cg.length);const m4=new THREE.Matrix4();
